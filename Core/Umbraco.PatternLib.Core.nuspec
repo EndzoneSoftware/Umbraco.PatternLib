@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Endzone.Umbraco.PatternLib</id>
+    <version>0.1b</version>
+    <title>Endzone.Umbraco.PatternLib</title>
+    <authors>Endzone.io</authors>
+    <owners>Endzone.io</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Enables Endzone PatternLib (supports Atomic Design partials) functionlity to Umbraco projects</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright 2017</copyright>
+    <tags></tags>
+  </metadata>
+</package>
