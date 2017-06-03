@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using System.Web.Routing;
 using Umbraco.Core;
 using Umbraco.Web.Mvc;
 
@@ -27,8 +28,16 @@ namespace Endzone.Umbraco.PatternLib.Core
                 ViewEngines.Engines.Remove(remove);
 
             ViewEngines.Engines.Add(new PatternLibRazorViewEngine());
-
+            
         }
+
+        //protected override void ApplicationStarted(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
+        //{
+        //    //map routes for patternlab viewer
+        //    RouteTable.Routes.MapRoute(
+        //        name: "uSplit.GoogleApiAuth",
+        //        url: "");
+        //}
 
     }
 }
