@@ -31,13 +31,14 @@ namespace Endzone.Umbraco.PatternLib.Core
             
         }
 
-        //protected override void ApplicationStarted(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
-        //{
-        //    //map routes for patternlab viewer
-        //    RouteTable.Routes.MapRoute(
-        //        name: "uSplit.GoogleApiAuth",
-        //        url: "");
-        //}
+        protected override void ApplicationStarted(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
+        {
+            //map routes for patternlab viewer
+            RouteTable.Routes.MapRoute(
+                name: "patternlib",
+                url: "patternlib/{action}",
+                defaults: new { controller = "PatternLib" });
+        }
 
     }
 }

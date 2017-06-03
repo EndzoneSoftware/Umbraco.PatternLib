@@ -345,7 +345,9 @@
     <Content Include="config\BaseRestExtensions.config" />
     <Content Include="config\applications.config" />
     <Content Include="config\404handlers.config" />
-    <Content Include="Views\_patternlab\Layout.cshtml.txt" />
+    <None Include="Views\_patternlib\Viewer\_Layout.cshtml" />
+    <Content Include="Views\_patternlib\Viewer\Static.cshtml" />
+    <Content Include="Views\_patternlib\Viewer\_patternNavBar.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -389,6 +391,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Plugins\PatternLib\" />
+    <Folder Include="Views\PatternLib\" />
+    <Folder Include="Views\_patternlib\patterns\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Umbraco.PatternLib.Core.csproj">
