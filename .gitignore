@@ -271,3 +271,9 @@ paket-files/
 # ImageProcessor DiskCache 
 **/App_Data/cache/
 
+
+
+# --------------------------------------
+# Project specific
+
+**/Views/_patternlib/**
