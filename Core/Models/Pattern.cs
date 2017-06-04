@@ -42,7 +42,7 @@ namespace Endzone.Umbraco.PatternLib.Core.Models
         {
             get
             {
-                return FullPath.Replace(RootPath, "");
+                return "/patternlib/pattern/" + FullPath.Replace(RootPath, "");
             }
         }
 
