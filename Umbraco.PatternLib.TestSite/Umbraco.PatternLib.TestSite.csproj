@@ -380,6 +380,7 @@
     <Content Include="Views\_patternlib\patterns\01-atoms\08-media\_01-audio.htm" />
     <Content Include="Views\_patternlib\Viewer\Static.cshtml" />
     <Content Include="Views\_patternlib\Viewer\_patternNavBar.cshtml" />
+    <Content Include="Views\_patternlib\patterns\_PatternMaster.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
