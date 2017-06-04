@@ -9,15 +9,25 @@ using System.Web.Mvc;
 
 namespace Endzone.Umbraco.PatternLib.Core.Controllers
 {
+    [PatternViewerEnabled]
     public class PatternLibController : Controller
     {
-        const string viewTemplatePath = "~/Views/_patternlib/viewer/{0}.cshtml";
-        const string staticPatternsPath = "~/Views/_patternlib/patterns/";
+        const string viewTemplatePath = "~/App_Plugins/Patternlib/viewer/{0}.cshtml";
+        const string defaultViewsFolder = "~/App_Plugins/Patternlib/DefaultViews/";
+        const string viewsFolderPath = "~/Views/_patternlib/";
+        const string staticPatternsPath = viewsFolderPath + "static/";
+        
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            base.OnActionExecuting(filterContext);
+            EnsureDefaultViews();
+        }
 
         string ViewTemplate(string name)
         {
             return string.Format(viewTemplatePath, name);
         }
+        
 
         /// <summary>
         /// View the static (ie markup only) patternlib
@@ -45,7 +55,6 @@ namespace Endzone.Umbraco.PatternLib.Core.Controllers
         [ChildActionOnly]
         public ActionResult PatternNav()
         {
-            //todo ensure that these dirs exist
             var path = Server.MapPath(staticPatternsPath);
             var patterns = new PatternLibrary();
             foreach (var d in Directory.EnumerateDirectories(path))
@@ -57,11 +66,40 @@ namespace Endzone.Umbraco.PatternLib.Core.Controllers
             return View(ViewTemplate("_patternNavBar"), patterns);
         }
 
+        private void EnsureDefaultViews()
+        {
+            string destination = Server.MapPath(viewsFolderPath);
+            if (!Directory.Exists(destination))
+            {
+                string source = Server.MapPath(defaultViewsFolder);
+
+                int pathLen = source.Length;
+
+                foreach (string dirPath in Directory.GetDirectories(source, "*", SearchOption.AllDirectories))
+                {
+                    string subPath = dirPath.Substring(pathLen);
+                    string newpath = Path.Combine(destination, subPath);
+                    Directory.CreateDirectory(newpath);
+                }
+
+                foreach (string filePath in Directory.GetFiles(source, "*.*", SearchOption.AllDirectories))
+                {
+                    string subPath = filePath.Substring(pathLen);
+                    string newpath = Path.Combine(destination, subPath);
+                    System.IO.File.Copy(filePath, newpath);
+                }
+            }
+        }
+
         private static void GetPatternsFromDir(string rootD, string d, Pattern patternDir)
         {
             foreach (var f in Directory.EnumerateFiles(d, "*.htm", SearchOption.TopDirectoryOnly))
             {
-                patternDir.Add(new Pattern(f, rootD));
+                //We ignore patterns starting with underscore (_)
+                if (!Path.GetFileNameWithoutExtension(f).StartsWith("_"))
+                {
+                    patternDir.Add(new Pattern(f, rootD));
+                }
             }
             foreach (var subDir in Directory.EnumerateDirectories(d))
             {
