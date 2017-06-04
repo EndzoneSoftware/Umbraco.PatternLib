@@ -346,6 +346,37 @@
     <Content Include="config\applications.config" />
     <Content Include="config\404handlers.config" />
     <None Include="Views\_patternlib\Viewer\_Layout.cshtml" />
+    <Content Include="Views\_patternlib\patterns\01-atoms\01-global\00-colors.htm" />
+    <Content Include="Views\_patternlib\patterns\01-atoms\01-global\01-fonts.htm" />
+    <Content Include="Views\_patternlib\patterns\01-atoms\01-global\02-animations.htm" />
+    <Content Include="Views\_patternlib\patterns\01-atoms\01-global\03-visibility.htm" />
+    <Content Include="Views\_patternlib\patterns\01-atoms\02-text\00-headings.htm" />
+    <Content Include="Views\_patternlib\patterns\01-atoms\02-text\01-paragraph.htm" />
+    <Content Include="Views\_patternlib\patterns\01-atoms\02-text\02-blockquote.htm" />
+    <Content Include="Views\_patternlib\patterns\01-atoms\02-text\03-inline-elements.htm" />
+    <Content Include="Views\_patternlib\patterns\01-atoms\02-text\04-time.htm" />
+    <Content Include="Views\_patternlib\patterns\01-atoms\02-text\05-preformatted-text.htm" />
+    <Content Include="Views\_patternlib\patterns\01-atoms\02-text\06-hr.htm" />
+    <Content Include="Views\_patternlib\patterns\01-atoms\03-lists\00-unordered.htm" />
+    <Content Include="Views\_patternlib\patterns\01-atoms\03-lists\01-ordered.htm" />
+    <Content Include="Views\_patternlib\patterns\01-atoms\03-lists\02-definition.htm" />
+    <Content Include="Views\_patternlib\patterns\01-atoms\04-images\00-logo.htm" />
+    <Content Include="Views\_patternlib\patterns\01-atoms\04-images\01-landscape-4x3.htm" />
+    <Content Include="Views\_patternlib\patterns\01-atoms\04-images\02-landscape-16x9.htm" />
+    <Content Include="Views\_patternlib\patterns\01-atoms\04-images\03-square.htm" />
+    <Content Include="Views\_patternlib\patterns\01-atoms\04-images\04-avatar.htm" />
+    <Content Include="Views\_patternlib\patterns\01-atoms\04-images\05-icons.htm" />
+    <Content Include="Views\_patternlib\patterns\01-atoms\04-images\06-loading-icon.htm" />
+    <Content Include="Views\_patternlib\patterns\01-atoms\04-images\07-favicon.htm" />
+    <Content Include="Views\_patternlib\patterns\01-atoms\05-forms\00-text-fields.htm" />
+    <Content Include="Views\_patternlib\patterns\01-atoms\05-forms\01-select-menu.htm" />
+    <Content Include="Views\_patternlib\patterns\01-atoms\05-forms\02-checkbox.htm" />
+    <Content Include="Views\_patternlib\patterns\01-atoms\05-forms\03-radio-buttons.htm" />
+    <Content Include="Views\_patternlib\patterns\01-atoms\05-forms\04-html5-inputs.htm" />
+    <Content Include="Views\_patternlib\patterns\01-atoms\06-buttons\00-buttons.htm" />
+    <Content Include="Views\_patternlib\patterns\01-atoms\07-tables\00-table.htm" />
+    <Content Include="Views\_patternlib\patterns\01-atoms\08-media\_00-video.htm" />
+    <Content Include="Views\_patternlib\patterns\01-atoms\08-media\_01-audio.htm" />
     <Content Include="Views\_patternlib\Viewer\Static.cshtml" />
     <Content Include="Views\_patternlib\Viewer\_patternNavBar.cshtml" />
     <None Include="Web.Debug.config">
@@ -390,9 +421,9 @@
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.1.0.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Plugins\PatternLib\" />
     <Folder Include="Views\PatternLib\" />
-    <Folder Include="Views\_patternlib\patterns\" />
+    <Folder Include="Views\_patternlib\patterns\02-molecules\" />
+    <Folder Include="Views\_patternlib\patterns\03-organisms\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Umbraco.PatternLib.Core.csproj">
