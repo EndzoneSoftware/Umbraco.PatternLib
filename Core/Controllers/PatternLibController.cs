@@ -27,6 +27,20 @@ namespace Endzone.Umbraco.PatternLib.Core.Controllers
         {
             return View(ViewTemplate("static"));
         }
+        
+        /// <summary>
+        /// View a specific pattern
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Pattern(string path)
+        {
+            var rootPath = Server.MapPath(staticPatternsPath);
+            var fullPath = Path.Combine(rootPath, path);
+            var pattern = new Pattern(fullPath, rootPath);
+            return View(ViewTemplate("pattern"), pattern);
+        }
+
+
 
         [ChildActionOnly]
         public ActionResult PatternNav()
@@ -36,23 +50,23 @@ namespace Endzone.Umbraco.PatternLib.Core.Controllers
             var patterns = new PatternLibrary();
             foreach (var d in Directory.EnumerateDirectories(path))
             {
-                var patternDir = new Pattern(d);
-                GetPatternsFromDir(d, patternDir);
+                var patternDir = new Pattern(d, path);
+                GetPatternsFromDir(path, d, patternDir);
                 patterns.Add(patternDir);
             }
             return View(ViewTemplate("_patternNavBar"), patterns);
         }
 
-        private static void GetPatternsFromDir(string d, Pattern patternDir)
+        private static void GetPatternsFromDir(string rootD, string d, Pattern patternDir)
         {
             foreach (var f in Directory.EnumerateFiles(d, "*.htm", SearchOption.TopDirectoryOnly))
             {
-                patternDir.Add(new Pattern(f));
+                patternDir.Add(new Pattern(f, rootD));
             }
             foreach (var subDir in Directory.EnumerateDirectories(d))
             {
-                var pattern = new Pattern(subDir);
-                GetPatternsFromDir(subDir, pattern);
+                var pattern = new Pattern(subDir, rootD);
+                GetPatternsFromDir(rootD, subDir, pattern);
                 patternDir.Add(pattern);
             }
         }

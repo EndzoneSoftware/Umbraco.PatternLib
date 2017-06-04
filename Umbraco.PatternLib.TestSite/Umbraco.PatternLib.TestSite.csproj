@@ -345,6 +345,7 @@
     <Content Include="config\BaseRestExtensions.config" />
     <Content Include="config\applications.config" />
     <Content Include="config\404handlers.config" />
+    <Content Include="Views\_patternlib\Viewer\pattern.cshtml" />
     <None Include="Views\_patternlib\Viewer\_Layout.cshtml" />
     <Content Include="Views\_patternlib\patterns\01-atoms\01-global\00-colors.htm" />
     <Content Include="Views\_patternlib\patterns\01-atoms\01-global\01-fonts.htm" />
