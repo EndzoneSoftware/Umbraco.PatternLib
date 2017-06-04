@@ -27,7 +27,11 @@ namespace Endzone.Umbraco.PatternLib.Core.Controllers
         {
             return string.Format(viewTemplatePath, name);
         }
-        
+
+        public ActionResult Index()
+        {
+            return View(ViewTemplate("index"));
+        }
 
         /// <summary>
         /// View the static (ie markup only) patternlib
@@ -37,7 +41,7 @@ namespace Endzone.Umbraco.PatternLib.Core.Controllers
         {
             return View(ViewTemplate("static"));
         }
-        
+
         /// <summary>
         /// View a specific pattern
         /// </summary>

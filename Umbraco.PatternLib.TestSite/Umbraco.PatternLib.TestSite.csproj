@@ -366,13 +366,9 @@
     <Content Include="Views\_patternlib-example\static\01-atoms\03-lists\02-definition.htm" />
     <Content Include="Views\_patternlib-example\static\01-atoms\04-images\00-logo.htm" />
     <Content Include="Views\_patternlib-example\static\01-atoms\04-images\01-landscape-4x3.htm" />
-    <Content Include="Views\_patternlib-example\static\01-atoms\04-images\02-landscape-16x9.htm" />
-    <Content Include="Views\_patternlib-example\static\01-atoms\04-images\03-square.htm" />
-    <Content Include="Views\_patternlib-example\static\01-atoms\04-images\04-avatar.htm" />
     <Content Include="Views\_patternlib-example\static\01-atoms\04-images\05-icons.htm" />
     <Content Include="Views\_patternlib-example\static\01-atoms\04-images\06-loading-icon.htm" />
     <Content Include="Views\_patternlib-example\static\01-atoms\04-images\07-favicon.htm" />
-    <Content Include="Views\_patternlib-example\static\01-atoms\05-forms\00-text-fields.htm" />
     <Content Include="Views\_patternlib-example\static\01-atoms\05-forms\01-select-menu.htm" />
     <Content Include="Views\_patternlib-example\static\01-atoms\05-forms\02-checkbox.htm" />
     <Content Include="Views\_patternlib-example\static\01-atoms\05-forms\03-radio-buttons.htm" />
@@ -384,6 +380,8 @@
     <Content Include="Views\_patternlib-example\static\_PatternMaster.cshtml" />
     <Content Include="App_Plugins\Patternlib\Viewer\Web.config" />
     <Content Include="App_Plugins\Patternlib\DefaultViews\static\_PatternMaster.cshtml" />
+    <Content Include="App_Plugins\Patternlib\Viewer\Index.cshtml" />
+    <Content Include="App_Plugins\Patternlib\Viewer\NavBar.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

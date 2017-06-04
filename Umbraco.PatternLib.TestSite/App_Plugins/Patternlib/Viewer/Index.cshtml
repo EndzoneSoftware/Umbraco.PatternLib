@@ -1,0 +1,26 @@
+﻿@inherits System.Web.Mvc.WebViewPage
+@{
+    Layout = "_Layout.cshtml";
+}
+
+
+@section nav {
+    @Html.Partial("~/App_Plugins/PatternLib/Viewer/NavBar.cshtml")
+}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>PatternLib</h1>
+
+            <p><a class="btn btn-primary btn-lg" href="static" role="button">View static markup PatternLib &raquo;</a></p>
+        </div>
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="container small text-muted">
+        <a href="http://atomicdesign.bradfrost.com/">Learn about Atomic Design here</a> | <a href="http://patternlab.io/">Original concept taken from PatternLab.io</a>
+    </div>
+</footer>

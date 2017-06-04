@@ -37,7 +37,7 @@ namespace Endzone.Umbraco.PatternLib.Core
             RouteTable.Routes.MapRoute(
                 name: "patternlib",
                 url: "patternlib/{action}",
-                defaults: new { controller = "PatternLib" });
+                defaults: new { controller = "PatternLib", action = "index" });
             RouteTable.Routes.MapRoute(
                 name: "patternlib.pattern",
                 url: "patternlib/pattern/{*path}",
