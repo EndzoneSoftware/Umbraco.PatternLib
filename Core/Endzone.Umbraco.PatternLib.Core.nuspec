@@ -9,7 +9,10 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
     <releaseNotes></releaseNotes>
-    <copyright>Copyright 2017</copyright>
+    <copyright>Copyright 2018</copyright>
     <tags></tags>
+    <files>
+      <file src="..\Umbraco.PatternLib.TestSite\**\*" target="content\App_Plugins\RJP.MultiUrlPicker" />
+    </files>
   </metadata>
-</package>
+</package> 

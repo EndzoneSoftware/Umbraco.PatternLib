@@ -281,9 +281,23 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+    <Content Include="App_Plugins\Patternlib\DefaultViews\static\_PatternMaster.cshtml" />
+    <Content Include="App_Plugins\Patternlib\Viewer\_Layout.cshtml" />
+    <Content Include="App_Plugins\Patternlib\Viewer\_patternNavBar.cshtml" />
+    <Content Include="App_Plugins\Patternlib\Viewer\Index.cshtml" />
+    <Content Include="App_Plugins\Patternlib\Viewer\NavBar.cshtml" />
+    <Content Include="App_Plugins\Patternlib\Viewer\pattern.cshtml" />
+    <Content Include="App_Plugins\Patternlib\Viewer\Static.cshtml" />
+    <Content Include="App_Plugins\Patternlib\Viewer\Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Plugins\Patternlib\Css\PatternlibScaffolding.css" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\AutoMapper.3.3.1\tools\AutoMapper.targets" Condition="Exists('..\packages\AutoMapper.3.3.1\tools\AutoMapper.targets')" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy /E /Y "$(ProjectDir)App_Plugins\**" "$(SolutionDir)Umbraco.PatternLib.TestSite\App_Plugins"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

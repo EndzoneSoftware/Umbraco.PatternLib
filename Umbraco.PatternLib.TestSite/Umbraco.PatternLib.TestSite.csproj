@@ -312,7 +312,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Plugins\Patternlib\Css\PatternlibScaffolding.css" />
     <Content Include="packages.config" />
     <Content Include="config\imageprocessor\security.config" />
     <Content Include="config\imageprocessor\processing.config" />
@@ -346,10 +345,6 @@
     <Content Include="config\BaseRestExtensions.config" />
     <Content Include="config\applications.config" />
     <Content Include="config\404handlers.config" />
-    <Content Include="App_Plugins\Patternlib\Viewer\pattern.cshtml" />
-    <Content Include="App_Plugins\Patternlib\Viewer\Static.cshtml" />
-    <Content Include="App_Plugins\Patternlib\Viewer\_Layout.cshtml" />
-    <Content Include="App_Plugins\Patternlib\Viewer\_patternNavBar.cshtml" />
     <Content Include="Views\_patternlib-example\static\01-atoms\01-global\00-colors.htm" />
     <Content Include="Views\_patternlib-example\static\01-atoms\01-global\01-fonts.htm" />
     <Content Include="Views\_patternlib-example\static\01-atoms\01-global\02-animations.htm" />
@@ -378,10 +373,6 @@
     <Content Include="Views\_patternlib-example\static\01-atoms\08-media\_00-video.htm" />
     <Content Include="Views\_patternlib-example\static\01-atoms\08-media\_01-audio.htm" />
     <Content Include="Views\_patternlib-example\static\_PatternMaster.cshtml" />
-    <Content Include="App_Plugins\Patternlib\Viewer\Web.config" />
-    <Content Include="App_Plugins\Patternlib\DefaultViews\static\_PatternMaster.cshtml" />
-    <Content Include="App_Plugins\Patternlib\Viewer\Index.cshtml" />
-    <Content Include="App_Plugins\Patternlib\Viewer\NavBar.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -414,7 +405,9 @@
     <Content Include="config\Lang\zh-CN.user.xml" />
     <Content Include="default.aspx" />
     <Content Include="Global.asax" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
