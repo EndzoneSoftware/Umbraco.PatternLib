@@ -12,7 +12,7 @@
     <copyright>Copyright 2018</copyright>
     <tags></tags>
     <files>
-      <file src="..\Umbraco.PatternLib.TestSite\**\*" target="content\App_Plugins\RJP.MultiUrlPicker" />
+      <file src="App_Plugins\PatternLib\**\*" target="content\App_Plugins\PatternLib" />
     </files>
   </metadata>
 </package> 
