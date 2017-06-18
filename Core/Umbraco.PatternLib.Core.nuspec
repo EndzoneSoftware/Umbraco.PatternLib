@@ -11,8 +11,8 @@
     <releaseNotes></releaseNotes>
     <copyright>Copyright 2018</copyright>
     <tags></tags>
-    <files>
-      <file src="App_Plugins\Patternlib\**\*" target="content\App_Plugins\Patternlib" />
-    </files>
   </metadata>
+  <files>
+    <file src="App_Plugins\Patternlib\**\*" target="content\App_Plugins\Patternlib" />
+  </files>
 </package>
