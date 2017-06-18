@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Endzone.Umbraco.PatternLib")]
-[assembly: AssemblyDescription("Our approach to Atomic Design principles in Umbraco")]
+[assembly: AssemblyDescription("Our approach to Atomic Design principles in Umbraco.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Endzone.io")]
 [assembly: AssemblyProduct("Endzone.Umbraco.PatternLib")]

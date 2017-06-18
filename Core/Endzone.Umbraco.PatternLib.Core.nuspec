@@ -12,7 +12,7 @@
     <copyright>Copyright 2018</copyright>
     <tags></tags>
     <files>
-      <file src="App_Plugins\PatternLib\**\*" target="content\App_Plugins\PatternLib" />
+      <file src="App_Plugins\Patternlib\**\*" target="content\App_Plugins\Patternlib" />
     </files>
   </metadata>
-</package> 
+</package>
