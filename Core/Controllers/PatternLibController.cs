@@ -37,8 +37,10 @@ namespace Endzone.Umbraco.PatternLib.Core.Controllers
         /// View the static (ie markup only) patternlib
         /// </summary>
         /// <returns></returns>
-        public ActionResult Static()
+        public ActionResult Static(string path)
         {
+            var patternUrl = String.IsNullOrEmpty(path) ? null : "/patternlib/pattern/" + path;
+            ViewBag.PatternUrl = patternUrl;
             return View(ViewTemplate("static"));
         }
 

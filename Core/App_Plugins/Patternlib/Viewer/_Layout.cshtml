@@ -100,10 +100,11 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
     <script>
-        function ShowPatternInfo(patternName, patternLinkPath) {
+        function ShowPatternInfo(patternName, patternLinkPath, patternRelativeLinkPath) {
             $('#PatternNewWindowLink').attr("href", patternLinkPath);
             $('#PatternName').html(patternName);
             $('#PatternInfo').removeClass("hidden");
+            window.history.replaceState({}, '', '/patternlib/static/pattern/' + patternRelativeLinkPath);
         }
     </script>
 </body>
