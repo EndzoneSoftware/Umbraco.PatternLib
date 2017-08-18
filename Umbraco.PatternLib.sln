@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Umbraco.PatternLib.Core", "Core\Umbraco.PatternLib.Core.csproj", "{C07C008D-EB8D-4D18-B8FE-27F5125E8767}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Umbraco.PatternLib.Core", "Umbraco.PatternLib.Core\Umbraco.PatternLib.Core.csproj", "{C07C008D-EB8D-4D18-B8FE-27F5125E8767}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Umbraco.PatternLib.TestSite", "Umbraco.PatternLib.TestSite\Umbraco.PatternLib.TestSite.csproj", "{56E036E2-8152-4D41-9769-60FF53B0E6E6}"
 EndProject

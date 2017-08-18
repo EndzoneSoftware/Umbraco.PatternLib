@@ -421,7 +421,7 @@
     <Folder Include="Views\_patternlib-example\static\03-organisms\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Core\Umbraco.PatternLib.Core.csproj">
+    <ProjectReference Include="..\Umbraco.PatternLib.Core\Umbraco.PatternLib.Core.csproj">
       <Project>{c07c008d-eb8d-4d18-b8fe-27f5125e8767}</Project>
       <Name>Umbraco.PatternLib.Core</Name>
     </ProjectReference>
