@@ -16,7 +16,6 @@ namespace Endzone.Umbraco.PatternLib.Core
         {
             base.ApplicationStarting(umbracoApplication, applicationContext);
 
-
             //Replace the Umbraco RenderViewEngine with PatternLibRazorViewEngine
             // this allows us to override View locations without too many extra steps
             IViewEngine remove = null;
@@ -33,20 +32,24 @@ namespace Endzone.Umbraco.PatternLib.Core
 
         protected override void ApplicationStarted(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
         {
-            //map routes for patternlab viewer
             RouteTable.Routes.MapRoute(
                 name: "patternlib",
                 url: "patternlib/{action}",
-                defaults: new { controller = "PatternLib", action = "index" });
+                defaults: new { controller = "PatternLib", action = "Index" }
+            );
+
             RouteTable.Routes.MapRoute(
                 name: "patternlib.static.pattern.only",
-                url: "patternlib/pattern/{*path}",
-                defaults: new { controller = "PatternLib", action = "Pattern" }
-            );
-            RouteTable.Routes.MapRoute(
-                name: "patternlib..static.pattern",
-                url: "patternlib/static/pattern/{*path}",
+                url: "patternlib/static/{*path}",
+                constraints: new { path = @".*\.htm$" },
                 defaults: new { controller = "PatternLib", action = "Static" }
+            );
+
+            RouteTable.Routes.MapRoute(
+                name: "patternlib.static.pattern.viewer",
+                url: "patternlib/static/{*path}",
+                constraints: new { path = @".*(?<!\.htm)$" },
+                defaults: new { controller = "PatternLib", action = "StaticViewer" }
             );
         }
 

@@ -1,0 +1,38 @@
+﻿/*
+    VIEWER COMPONENT
+*/
+
+.viewer {
+    .grid-frame {
+        background-color: $grey;
+        height: calc(100vh - 32px);
+        position: inherit;
+    }
+
+    &-cell {
+        background-color: $white;
+        transition: max-width linear .5s;
+
+        &--full {
+            max-width: 100%;
+        }
+
+        &--large {
+            max-width: rem-calc(1124);
+        }
+
+        &--medium {
+            max-width: rem-calc(540);
+        }
+
+        &--small {
+            max-width: rem-calc(460);
+        }
+    }
+
+    &-frame {
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
+}

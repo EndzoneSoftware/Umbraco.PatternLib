@@ -276,6 +276,5 @@ paket-files/
 # --------------------------------------
 # Project specific
 
-**/Views/_patternlib/**
 **/Umbraco.PatternLib.TestSite/App_Plugins/Patternlib/**
 !**/*TestSite/App_Data/*.sdf

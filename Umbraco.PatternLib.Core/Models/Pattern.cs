@@ -1,75 +1,98 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Web.Mvc;
+using Umbraco.Core;
 
 namespace Endzone.Umbraco.PatternLib.Core.Models
 {
     public class PatternLibrary : List<Pattern>
     {
-
     }
+
     public class Pattern
     {
         /// <summary>
-        /// The full path to the directory or file
+        /// Creates new instance of Pattern class and sets pattern paths.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="rootPath"></param>
+        public Pattern(string path, string rootPath)
+        {
+            FullPath = path;
+            RootPath = rootPath;
+            RelativePath = FullPath.Replace(RootPath, string.Empty);
+            Patterns = new List<Pattern>();
+        }
+
+        /// <summary>
+        /// The full path to the directory or file.
         /// </summary>
         public string FullPath { get; }
+
         /// <summary>
-        /// The base path to the web "root" for the patterns directory
+        /// The root path of the directory or file.
         /// </summary>
         public string RootPath { get; }
 
-        public bool IsList
-        {
-            get
-            {
-                return Path.GetExtension(this.FullPath) == String.Empty;
-            }
-        }
+        /// <summary>
+        /// The relative path to the directory or file.
+        /// </summary>
+        private string RelativePath { get; }
 
+        /// <summary>
+        /// If this is a directory containing files.
+        /// </summary>
+        public bool IsList => Path.GetExtension(FullPath) == string.Empty;
+
+        /// <summary>
+        /// Name of the directory or pattern file.
+        /// </summary>
         public string Name
         {
             get
             {
-                string fileName = Path.GetFileNameWithoutExtension(this.FullPath);
+                var fileName = Path.GetFileNameWithoutExtension(FullPath);
+
                 //lets ignore prefix numbers (used for ordering only) in format 00-
-                return Regex.Replace(fileName, "^[0-9]{0,2}[-]{0,1}", "");
+                return fileName == null ? null : Regex.Replace(fileName, "^[0-9]{0,2}[-]{0,1}", "");
             }
         }
 
-        public string LinkPath
-        {
-            get
-            {
-                return "/patternlib/pattern/" + LinkPathRelative;
-            }
-        }
-        public string LinkPathRelative
-        {
-            get
-            {
-                return FullPath.Replace(RootPath, "").Replace(@"\", "/");
-            }
-        }
+        /// <summary>
+        /// Link to the static pattern file.
+        /// </summary>
+        public string StaticUrl => "/patternlib/static/" + RelativePath.Replace(@"\", "/");
 
-        public string Code
-        {
-            get
-            {
-                return File.ReadAllText(FullPath);
-            }
-        }
+        /// <summary>
+        /// Link to the static pattern viewer.
+        /// </summary>
+        public string StaticViewerUrl => StaticUrl.Replace(".htm", string.Empty).EnsureEndsWith("/");
 
+        /// <summary>
+        /// Link to the Razor pattern file.
+        /// </summary>
+        public string RazorUrl => "/patternlib/razor/" + RelativePath.Replace(@"\", "/");
+
+        /// <summary>
+        /// Link to the static pattern viewer.
+        /// </summary>
+        public string RazorViewerUrl => RazorUrl.Replace(".cshtml", string.Empty).EnsureEndsWith("/");
+
+        /// <summary>
+        /// Get raw file content.
+        /// </summary>
+        public MvcHtmlString Code => IsList ? MvcHtmlString.Empty : new MvcHtmlString(File.ReadAllText(FullPath));
+
+        /// <summary>
+        /// List of child pattern files or directories.
+        /// </summary>
         public List<Pattern> Patterns { get; }
 
-        public Pattern(string path, string rootPath)
-        {
-            this.FullPath = path;
-            this.RootPath = rootPath;
-            Patterns = new List<Pattern>();
-        }
-
+        /// <summary>
+        /// Adds a new pattern to the list.
+        /// </summary>
+        /// <param name="p"></param>
         public void Add(Pattern p)
         {
             Patterns.Add(p);

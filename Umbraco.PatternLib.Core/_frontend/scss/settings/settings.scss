@@ -1,0 +1,21 @@
+﻿/*
+    GLOBAL SETTINGS
+*/
+
+// Colours
+$white: #fff;
+$black: #0a0a0a;
+$grey: #808080;
+
+// Foundation overrides
+$global-menu-padding: 0.25rem 1rem;
+
+$topbar-padding: 0.25rem;
+$topbar-background: $black;
+
+$dropdownmenu-arrow-color: $grey;
+$dropdown-menu-item-color-active: $white;
+$dropdownmenu-border: 1px solid $black;
+
+// Foundation Icons overrides
+$fi-path: '/App_Plugins/Umbraco.PatternLib/assets/fonts/icons';

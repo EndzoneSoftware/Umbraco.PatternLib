@@ -1,0 +1,84 @@
+﻿@model PatternLibrary
+@using Endzone.Umbraco.PatternLib.Core.Models;
+
+<header role="banner" data-sticky-container>
+    <div class="top-bar" data-sticky data-options="marginTop:0;">
+        <div class="top-bar-left">
+            <ul class="dropdown menu" data-dropdown-menu>
+                @RenderPatternNav(Model)
+            </ul>
+        </div>
+        <div class="top-bar-right">
+            <ul class="dropdown menu" data-dropdown-menu>
+                @RenderControls()
+            </ul>
+        </div>
+    </div>
+</header>
+
+@helper RenderPatternNav(PatternLibrary patterns)
+{
+    foreach (var pattern in patterns)
+    {
+        <li class="has-submenu">
+            <a href="#">@pattern.Name</a>
+            <ul class="submenu menu vertical" data-submenu>
+                @RenderPatternSubNav(pattern)
+            </ul>
+        </li>
+    }
+
+}
+
+@helper RenderPatternSubNav(Pattern patternList)
+{
+    foreach (var pattern in patternList.Patterns)
+    {
+        if (pattern.IsList)
+        {
+            <li>
+                <a href="#">@pattern.Name</a>
+                <ul class="submenu menu vertical" data-submenu>
+                    @RenderPatternSubNav(pattern)
+                </ul>
+            </li>
+        }
+        else
+        {
+            <li>
+                <a href="@pattern.StaticViewerUrl">@pattern.Name</a>
+            </li>
+        }
+    }
+}
+
+@helper RenderControls()
+{
+    if (ViewBag.HideControls == true)
+    {
+        return;
+    }
+
+    <li>
+        <a href="~/patternlib/"><i class="fi-home" title="Home"></i></a>
+    </li>
+    <li>
+        <div id="viewer-size-controls" class="small button-group">
+            <a href="#" class="button secondary" data-size-class="viewer-cell--small">S</a>
+            <a href="#" class="button secondary" data-size-class="viewer-cell--medium">M</a>
+            <a href="#" class="button secondary" data-size-class="viewer-cell--large">L</a>
+            <a href="#" class="button" data-size-class="viewer-cell--full">Full</a>
+        </div>
+    </li>
+    <li class="has-submenu">
+        <a href="#" class="dropdown-no-arrow"><i class="fi-widget" title="Settings"></i></a>
+        <ul class="submenu menu vertical" data-submenu>
+            <li>
+                <a href="#">View pattern info</a>
+            </li>
+            <li>
+                <a id="viewer-new-window" href="#">Open in new window</a>
+            </li>
+        </ul>
+    </li>
+}

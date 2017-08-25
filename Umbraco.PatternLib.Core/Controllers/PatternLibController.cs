@@ -1,118 +1,143 @@
 ﻿using Endzone.Umbraco.PatternLib.Core.Models;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Mvc;
+using Umbraco.Core;
 
 namespace Endzone.Umbraco.PatternLib.Core.Controllers
 {
     [PatternViewerEnabled]
     public class PatternLibController : Controller
     {
-        const string viewTemplatePath = "~/App_Plugins/Patternlib/viewer/{0}.cshtml";
-        const string defaultViewsFolder = "~/App_Plugins/Patternlib/DefaultViews/";
-        const string viewsFolderPath = "~/Views/_patternlib/";
-        const string staticPatternsPath = viewsFolderPath + "static/";
-        
+        private const string ViewsTemplatePath = "~/App_Plugins/Umbraco.PatternLib/Views/{0}.cshtml";
+        private const string DefaultViewsFolder = "~/App_Plugins/Umbraco.PatternLib/DefaultViews/";
+
+        private const string PatternViewsPath = "~/Views/_patternlib/";
+        private const string StaticPatternViewsPath = PatternViewsPath + "static/";
+
+        private static string ViewTemplate(string name)
+        {
+            return string.Format(ViewsTemplatePath, name);
+        }
+
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             base.OnActionExecuting(filterContext);
+
             EnsureDefaultViews();
-        }
-
-        string ViewTemplate(string name)
-        {
-            return string.Format(viewTemplatePath, name);
-        }
-
-        public ActionResult Index()
-        {
-            return View(ViewTemplate("index"));
-        }
-
-        /// <summary>
-        /// View the static (ie markup only) patternlib
-        /// </summary>
-        /// <returns></returns>
-        public ActionResult Static(string path)
-        {
-            var patternUrl = String.IsNullOrEmpty(path) ? null : "/patternlib/pattern/" + path;
-            ViewBag.PatternUrl = patternUrl;
-            return View(ViewTemplate("static"));
-        }
-
-        /// <summary>
-        /// View a specific pattern
-        /// </summary>
-        /// <returns></returns>
-        public ActionResult Pattern(string path)
-        {
-            var rootPath = Server.MapPath(staticPatternsPath);
-            var fullPath = Path.Combine(rootPath, path);
-            var pattern = new Pattern(fullPath, rootPath);
-            return View(ViewTemplate("pattern"), pattern);
-        }
-
-
-
-        [ChildActionOnly]
-        public ActionResult PatternNav()
-        {
-            var path = Server.MapPath(staticPatternsPath);
-            var patterns = new PatternLibrary();
-            foreach (var d in Directory.EnumerateDirectories(path))
-            {
-                var patternDir = new Pattern(d, path);
-                GetPatternsFromDir(path, d, patternDir);
-                patterns.Add(patternDir);
-            }
-            return View(ViewTemplate("_patternNavBar"), patterns);
         }
 
         private void EnsureDefaultViews()
         {
-            string destination = Server.MapPath(viewsFolderPath);
-            if (!Directory.Exists(destination))
+            string destination = Server.MapPath(PatternViewsPath);
+
+            if (Directory.Exists(destination))
             {
-                string source = Server.MapPath(defaultViewsFolder);
+                return;
+            }
 
-                int pathLen = source.Length;
+            string source = Server.MapPath(DefaultViewsFolder);
 
-                foreach (string dirPath in Directory.GetDirectories(source, "*", SearchOption.AllDirectories))
-                {
-                    string subPath = dirPath.Substring(pathLen);
-                    string newpath = Path.Combine(destination, subPath);
-                    Directory.CreateDirectory(newpath);
-                }
+            int pathLen = source.Length;
 
-                foreach (string filePath in Directory.GetFiles(source, "*.*", SearchOption.AllDirectories))
-                {
-                    string subPath = filePath.Substring(pathLen);
-                    string newpath = Path.Combine(destination, subPath);
-                    System.IO.File.Copy(filePath, newpath);
-                }
+            foreach (string dirPath in Directory.GetDirectories(source, "*", SearchOption.AllDirectories))
+            {
+                string subPath = dirPath.Substring(pathLen);
+                string newpath = Path.Combine(destination, subPath);
+                Directory.CreateDirectory(newpath);
+            }
+
+            foreach (string filePath in Directory.GetFiles(source, "*.*", SearchOption.AllDirectories))
+            {
+                string subPath = filePath.Substring(pathLen);
+                string newpath = Path.Combine(destination, subPath);
+                System.IO.File.Copy(filePath, newpath);
             }
         }
 
-        private static void GetPatternsFromDir(string rootD, string d, Pattern patternDir)
+        [ChildActionOnly]
+        public ActionResult Header(bool? hideControls)
         {
-            foreach (var f in Directory.EnumerateFiles(d, "*.htm", SearchOption.TopDirectoryOnly))
+            var patterns = new PatternLibrary();
+
+            var path = Server.MapPath(StaticPatternViewsPath);
+            
+            foreach (var dirPath in Directory.EnumerateDirectories(path))
             {
-                //We ignore patterns starting with underscore (_)
-                if (!Path.GetFileNameWithoutExtension(f).StartsWith("_"))
+                var pattern = new Pattern(dirPath, path);
+
+                GetPatternsFromDir(pattern);
+
+                patterns.Add(pattern);
+            }
+
+            ViewBag.HideControls = hideControls;
+
+            return PartialView(ViewTemplate("Partials/_Header"), patterns);
+        }
+
+        private static void GetPatternsFromDir(Pattern pattern)
+        {
+            // get all patterns in this directory
+            foreach (var filePath in Directory.EnumerateFiles(pattern.FullPath, "*.htm", SearchOption.TopDirectoryOnly))
+            {
+                // We ignore patterns starting with underscore (_)
+                var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(filePath);
+
+                if (fileNameWithoutExtension != null && !fileNameWithoutExtension.StartsWith("_"))
                 {
-                    patternDir.Add(new Pattern(f, rootD));
+                    pattern.Add(new Pattern(filePath, pattern.RootPath));
                 }
             }
-            foreach (var subDir in Directory.EnumerateDirectories(d))
+
+            // get any sub directories and their patterns
+            foreach (var dirPath in Directory.EnumerateDirectories(pattern.FullPath))
             {
-                var pattern = new Pattern(subDir, rootD);
-                GetPatternsFromDir(rootD, subDir, pattern);
-                patternDir.Add(pattern);
+                var dirPattern = new Pattern(dirPath, pattern.RootPath);
+
+                GetPatternsFromDir(dirPattern);
+
+                pattern.Add(dirPattern);
             }
+        }
+
+        /// <summary>
+        /// View the index page of patternlib.
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Index()
+        {
+            return View(ViewTemplate("Index"));
+        }
+
+        /// <summary>
+        /// Returns the static iframe viewer for this pattern.
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult StaticViewer(string path)
+        {
+            var patternPath = Server.MapPath(Path.Combine(StaticPatternViewsPath, path.TrimEnd("/").EnsureEndsWith(".htm")));
+            var rootPath = Server.MapPath(StaticPatternViewsPath);
+
+            var pattern = new Pattern(patternPath, rootPath);
+
+            return View(ViewTemplate("Pattern"), pattern);
+        }
+
+        /// <summary>
+        /// Returns the static HTML for this pattern (wrapped in the PatternMaster).
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public ActionResult Static(string path)
+        {
+            var rootPath = Server.MapPath(StaticPatternViewsPath);
+            var patternPath = Path.Combine(rootPath, path);
+
+            var pattern = new Pattern(patternPath, rootPath);
+
+            var patterMasterPath = Path.Combine(StaticPatternViewsPath, "_PatternMaster.cshtml");
+
+            return View(patterMasterPath, pattern);
         }
     }
 }

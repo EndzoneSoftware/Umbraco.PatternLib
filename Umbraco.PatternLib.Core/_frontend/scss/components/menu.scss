@@ -1,0 +1,39 @@
+﻿/*
+    MENU COMPONENT
+*/
+
+.menu {
+    font-size: .9rem;
+
+    a {
+        color: $grey;
+
+        &:hover {
+            color: $white;
+        }
+
+        &.button {
+            color: $white;
+        }
+    }
+
+    &.dropdown {
+        > li.is-dropdown-submenu-parent {
+            > a.dropdown-no-arrow {
+                padding-right: 1rem;
+
+                &::after {
+                    content: none;
+                }
+            }
+        }
+
+        .is-dropdown-submenu {
+            z-index: 9999;
+        }
+    }
+
+    .button-group {
+        margin-bottom: 0;
+    }
+}
