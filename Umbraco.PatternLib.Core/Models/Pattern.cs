@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using MarkdownSharp;
+using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
@@ -83,6 +84,36 @@ namespace Endzone.Umbraco.PatternLib.Core.Models
         /// Get raw file content.
         /// </summary>
         public MvcHtmlString Code => IsList ? MvcHtmlString.Empty : new MvcHtmlString(File.ReadAllText(FullPath));
+
+        /// <summary>
+        /// Get pattern notes from Markdown file.
+        /// </summary>
+        public MvcHtmlString Notes
+        {
+            get
+            {
+                if (IsList)
+                {
+                    return MvcHtmlString.Empty;
+                }
+
+                var markdownPath = FullPath.Replace(".htm", ".md");
+
+                if (!File.Exists(markdownPath))
+                {
+                    return MvcHtmlString.Empty;
+                }
+
+                var markdownText = File.ReadAllText(markdownPath);
+
+                // convert Markdown to HTML
+                var md = new Markdown();
+
+                var markdownHtml = md.Transform(markdownText);
+
+                return new MvcHtmlString(markdownHtml);
+            }
+        } 
 
         /// <summary>
         /// List of child pattern files or directories.

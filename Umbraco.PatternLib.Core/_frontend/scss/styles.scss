@@ -4,6 +4,8 @@
 
 @import 'foundation';
 
+@import 'settings/overrides';
+
 @include foundation-global-styles;
 @include foundation-flex-classes;
 @include foundation-visibility-classes;
@@ -15,8 +17,11 @@
 @include foundation-dropdown-menu;
 @include foundation-button;
 @include foundation-button-group;
+@include foundation-off-canvas;
 
 @import '_foundation-icons';
+
+@import 'vendors/prism';
 
 @import 'components/menu';
 @import 'components/viewer';

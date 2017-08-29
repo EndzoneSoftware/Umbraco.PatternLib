@@ -47,14 +47,22 @@ gulp.task('copy', function () {
               '../node_modules/foundation-sites/dist/js/plugins/foundation.util.keyboard.js',
               '../node_modules/foundation-sites/dist/js/plugins/foundation.util.box.js',
               '../node_modules/foundation-sites/dist/js/plugins/foundation.util.nest.js',
+              '../node_modules/foundation-sites/dist/js/plugins/foundation.util.triggers.js',
+              '../node_modules/foundation-sites/dist/js/plugins/foundation.util.motion.js',
               '../node_modules/foundation-sites/dist/js/plugins/foundation.sticky.js',
-              '../node_modules/foundation-sites/dist/js/plugins/foundation.dropdownMenu.js'])
+              '../node_modules/foundation-sites/dist/js/plugins/foundation.dropdownMenu.js',
+              '../node_modules/foundation-sites/dist/js/plugins/foundation.offcanvas.js',
+              '../node_modules/foundation-sites/dist/js/plugins/foundation.toggler.js'])
         .pipe(gulp.dest('_frontend/scripts/vendor/foundation-sites'))
     gulp.src(['../node_modules/foundation-icon-fonts/foundation-icons.eot',
               '../node_modules/foundation-icon-fonts/foundation-icons.svg',
               '../node_modules/foundation-icon-fonts/foundation-icons.ttf',
               '../node_modules/foundation-icon-fonts/foundation-icons.woff'])
-        .pipe(gulp.dest('App_Plugins/Umbraco.PatternLib/assets/fonts/icons'));
+        .pipe(gulp.dest('App_Plugins/Umbraco.PatternLib/assets/fonts/icons'))
+    gulp.src(['../node_modules/prismjs/components/prism-core.js',
+              '../node_modules/prismjs/components/prism-markup.js',
+              '../node_modules/prismjs/plugins/line-numbers/prism-line-numbers.js'])
+        .pipe(gulp.dest('_frontend/scripts/vendor/prismjs'));
 });
 
 gulp.task('js', function () {
@@ -70,8 +78,15 @@ gulp.task('js', function () {
               '_frontend/scripts/vendor/foundation-sites/foundation.util.keyboard.js',
               '_frontend/scripts/vendor/foundation-sites/foundation.util.box.js',
               '_frontend/scripts/vendor/foundation-sites/foundation.util.nest.js',
+              '_frontend/scripts/vendor/foundation-sites/foundation.util.triggers.js',
+              '_frontend/scripts/vendor/foundation-sites/foundation.util.motion.js',
               '_frontend/scripts/vendor/foundation-sites/foundation.sticky.js',
               '_frontend/scripts/vendor/foundation-sites/foundation.dropdownMenu.js',
+              '_frontend/scripts/vendor/foundation-sites/foundation.offcanvas.js',
+              '_frontend/scripts/vendor/foundation-sites/foundation.toggler.js',
+              '_frontend/scripts/vendor/prismjs/prism-core.js',
+              '_frontend/scripts/vendor/prismjs/prism-markup.js',
+              '_frontend/scripts/vendor/prismjs/prism-line-numbers.js',
               '_frontend/scripts/foundation.js',
               '_frontend/scripts/viewer.js'])
         .pipe(sourcemaps.init())

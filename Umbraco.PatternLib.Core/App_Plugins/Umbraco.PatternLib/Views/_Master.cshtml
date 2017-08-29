@@ -21,10 +21,18 @@
     </head>
     <body>
     
-        @Html.Action("Header", "PatternLib", new { hideControls = ViewBag.HideControls })
+        <div class="off-canvas position-bottom" id="offcanvas" data-off-canvas data-transition="overlap">
 
-        @RenderBody()
-        
+            @RenderSection("offcanvas", false)
+
+        </div>
+
+        <div class="off-canvas-content" data-off-canvas-content>
+            @Html.Action("Header", "PatternLib", new { hideControls = ViewBag.HideControls })
+            
+            @RenderBody()
+        </div>
+    
         <!-- load the js -->
         <script src="~/App_Plugins/Umbraco.PatternLib/assets/scripts/jquery.js"></script>
         <script src="~/App_Plugins/Umbraco.PatternLib/assets/scripts/scripts.js"></script>
