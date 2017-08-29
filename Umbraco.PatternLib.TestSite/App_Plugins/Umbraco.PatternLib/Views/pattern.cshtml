@@ -11,3 +11,26 @@
         </div>
     </div>
 </div>
+
+@section offcanvas {
+    
+    <div class="grid-x grid-padding-x">
+        <div class="cell text-right">
+            <button class="close-button" aria-label="Close menu" type="button" data-close>
+                <i class="fi-x"></i>
+            </button>        
+        </div>
+    </div>
+
+    <div class="grid-x grid-padding-x">
+        <div class="cell small-12 medium-6">
+            <h4>Notes</h4>
+            @Model.Notes
+        </div>
+        <div class="cell small-12 medium-6">
+            <h4>Markup</h4>
+            <pre><code class="language-html line-numbers">@Model.Code.ToHtmlString()</code></pre>
+        </div>
+    </div>
+
+}

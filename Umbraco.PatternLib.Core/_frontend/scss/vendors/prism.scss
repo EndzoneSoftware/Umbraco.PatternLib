@@ -1,0 +1,219 @@
+// PrismJS styles
+
+$pampas: #f5f2f0;
+$armadillo: #393a34;
+$sail: #b3d4fc;
+$japanese-laurel: #008000;
+$tamarillo: #a31515;
+$keppel: #36acaa;
+$blue: #00f;
+$pohutukawa: #9a050f;
+$navy-blue: #00009f;
+$jelly-bean: #2b91af;
+$maroon: #800000;
+$red: #f00;
+$yellow: #ff0;
+
+code,
+pre {
+    border: none;
+
+    &[class*='language-'] {
+        background: none;
+        color: $armadillo;
+        font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+        font-size: .75rem;
+        hyphens: none;
+        line-height: 1.5;
+        tab-size: 4;
+        text-align: left;
+        text-shadow: 0 1px $white;
+        white-space: pre;
+        word-break: normal;
+        word-spacing: normal;
+        word-wrap: normal;
+
+        &::selection,
+        & ::selection {
+            background: $sail;
+            text-shadow: none;
+        }
+
+        @media print {
+            & {
+                text-shadow: none;
+            }
+        }
+    }
+}
+
+// Code blocks
+
+pre {
+    &[class*='language-'] {
+        margin: .5rem 0;
+        overflow: auto;
+        padding: 1rem;
+
+        &.line-numbers {
+            padding-left: 3.8rem;
+        }
+    }
+}
+
+:not(pre) > code,
+pre {
+    &[class*='language-'] {
+        background: $pampas;
+    }
+}
+
+// Inline code
+
+:not(pre) > code {
+    &[class*='language-'] {
+        border-radius: .3rem;
+        padding: .1rem;
+        white-space: normal;
+    }
+}
+
+.token {
+    &.comment,
+    &.prolog,
+    &.doctype,
+    &.cdata {
+        color: $japanese-laurel;
+        font-style: italic;
+    }
+
+    &.namespace {
+        opacity: .7;
+    }
+
+    &.string {
+        color: $tamarillo;
+    }
+
+    &.punctuation,
+    &.operator {
+        color: $armadillo;
+    }
+
+    &.url,
+    &.symbol,
+    &.number,
+    &.boolean,
+    &.variable,
+    &.constant,
+    &.inserted {
+        color: $keppel;
+    }
+
+    &.atrule,
+    &.keyword,
+    &.attr-value {
+        color: $blue;
+    }
+
+    @at-root {
+        .language-autohotkey &.selector,
+        .language-css {
+            color: $blue;
+        }
+    }
+
+    &.function {
+        color: $armadillo;
+    }
+
+    &.deleted {
+        color: $pohutukawa;
+    }
+
+    @at-root {
+        .language-autohotkey &.tag {
+            color: $pohutukawa;
+        }
+    }
+
+    &.selector {
+        color: $navy-blue;
+    }
+
+    @at-root {
+        .language-autohotkey &.keyword {
+            color: $navy-blue;
+        }
+    }
+
+    &.important,
+    &.bold {
+        font-weight: bold;
+    }
+
+    &.italic {
+        font-style: italic;
+    }
+
+    &.class-name {
+        color: $jelly-bean;
+    }
+
+    &.tag,
+    &.selector {
+        color: $maroon;
+    }
+
+    &.attr-name,
+    &.property,
+    &.regex,
+    &.entity {
+        color: $red;
+    }
+
+    &.directive {
+        &.tag {
+            .tag {
+                background: $yellow;
+                color: $armadillo;
+            }
+        }
+    }
+}
+
+.line-numbers {
+    counter-reset: linenumber;
+    padding-left: 3.8rem;
+    position: relative;
+
+    > code {
+        position: relative;
+    }
+
+    .line-numbers-rows {
+        border-right: 1px solid $grey;
+        font-size: 100%;
+        left: -3.8rem;
+        letter-spacing: -1px;
+        pointer-events: none;
+        position: absolute;
+        top: 0;
+        user-select: none;
+        width: 3rem; // works for line-numbers below 1000 lines   
+
+        > span {
+            counter-increment: linenumber;
+            display: block;
+            pointer-events: none;
+
+            &::before {
+                color: $grey;
+                content: counter(linenumber);
+                display: block;
+                padding-right: .5rem;
+                text-align: right;
+            }
+        }
+    }
+}
