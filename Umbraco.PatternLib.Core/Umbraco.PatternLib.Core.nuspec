@@ -13,6 +13,6 @@
     <tags></tags>
   </metadata>
   <files>
-    <file src="App_Plugins\Patternlib\**\*" target="content\App_Plugins\Patternlib" />
+    <file src="App_Plugins\Umbraco.Patternlib\**\*" target="content\App_Plugins\Umbraco.Patternlib" />
   </files>
 </package>
