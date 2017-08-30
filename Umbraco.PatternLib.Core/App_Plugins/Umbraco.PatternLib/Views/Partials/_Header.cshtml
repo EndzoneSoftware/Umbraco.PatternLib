@@ -37,7 +37,7 @@
         if (pattern.IsList)
         {
             <li>
-                <a href="#">@pattern.Name</a>
+                <a href="@pattern.StaticViewerUrl">@pattern.Name</a>
                 <ul class="submenu menu vertical" data-submenu>
                     @RenderPatternSubNav(pattern)
                 </ul>
@@ -73,9 +73,12 @@
     <li class="has-submenu">
         <a href="#" class="dropdown-no-arrow"><i class="fi-widget" title="Settings"></i></a>
         <ul class="submenu menu vertical" data-submenu>
-            <li>
-                <a href="#" data-open="offcanvas">View pattern info</a>
-            </li>
+            @if (ViewBag.HidePatternInfoControl != true)
+            {
+                <li>
+                    <a href="#" data-open="offcanvas">View pattern info</a>
+                </li>
+            }
             <li>
                 <a id="viewer-new-window" href="#">Open in new window</a>
             </li>

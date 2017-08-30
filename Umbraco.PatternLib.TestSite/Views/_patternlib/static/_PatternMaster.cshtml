@@ -24,7 +24,23 @@
     </head>
     <body>
 
-        @Model.Code
+        @if (Model.IsList)
+        {
+            foreach (var pattern in Model.Patterns)
+            {
+                <h2 style="margin: 0.75rem 1rem 1rem;">
+                    <a href="@pattern.StaticViewerUrl" target="_parent">@pattern.Name</a>
+                </h2>
+
+                @pattern.Code
+
+                <div style="height: 3rem;"></div>
+            }
+        }
+        else
+        {
+            @Model.Code
+        }
         
         <!-- include js here -->
         <script src="/assets/js/modernizr.js"></script>

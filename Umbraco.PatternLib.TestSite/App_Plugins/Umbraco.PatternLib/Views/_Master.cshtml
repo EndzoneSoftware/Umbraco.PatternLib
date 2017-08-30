@@ -28,7 +28,7 @@
         </div>
 
         <div class="off-canvas-content" data-off-canvas-content>
-            @Html.Action("Header", "PatternLib", new { hideControls = ViewBag.HideControls })
+            @Html.Action("Header", "PatternLib", new { hideControls = ViewBag.HideControls, hidePatternInfoControl = ViewBag.HidePatternInfoControl })
             
             @RenderBody()
         </div>

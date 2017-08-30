@@ -55,7 +55,7 @@ namespace Endzone.Umbraco.PatternLib.Core.Controllers
         }
 
         [ChildActionOnly]
-        public ActionResult Header(bool? hideControls)
+        public ActionResult Header(bool? hideControls, bool? hidePatternInfoControl)
         {
             var patterns = new PatternLibrary();
 
@@ -71,6 +71,7 @@ namespace Endzone.Umbraco.PatternLib.Core.Controllers
             }
 
             ViewBag.HideControls = hideControls;
+            ViewBag.HidePatternInfoControl = hidePatternInfoControl;
 
             return PartialView(ViewTemplate("Partials/_Header"), patterns);
         }
@@ -78,7 +79,7 @@ namespace Endzone.Umbraco.PatternLib.Core.Controllers
         private static void GetPatternsFromDir(Pattern pattern)
         {
             // get all patterns in this directory
-            foreach (var filePath in Directory.EnumerateFiles(pattern.FullPath, "*.htm", SearchOption.TopDirectoryOnly))
+            foreach (var filePath in Directory.EnumerateFiles(pattern.FullDirectoryPath, "*.htm", SearchOption.TopDirectoryOnly))
             {
                 // We ignore patterns starting with underscore (_)
                 var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(filePath);
@@ -90,7 +91,7 @@ namespace Endzone.Umbraco.PatternLib.Core.Controllers
             }
 
             // get any sub directories and their patterns
-            foreach (var dirPath in Directory.EnumerateDirectories(pattern.FullPath))
+            foreach (var dirPath in Directory.EnumerateDirectories(pattern.FullDirectoryPath))
             {
                 var dirPattern = new Pattern(dirPath, pattern.RootPath);
 
@@ -132,8 +133,14 @@ namespace Endzone.Umbraco.PatternLib.Core.Controllers
         {
             var rootPath = Server.MapPath(StaticPatternViewsPath);
             var patternPath = Path.Combine(rootPath, path);
-
+            
             var pattern = new Pattern(patternPath, rootPath);
+
+            if (pattern.IsList)
+            {
+                // get child patterns
+                GetPatternsFromDir(pattern);
+            }
 
             var patterMasterPath = Path.Combine(StaticPatternViewsPath, "_PatternMaster.cshtml");
 

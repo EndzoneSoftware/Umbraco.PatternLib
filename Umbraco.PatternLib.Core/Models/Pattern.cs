@@ -32,6 +32,24 @@ namespace Endzone.Umbraco.PatternLib.Core.Models
         public string FullPath { get; }
 
         /// <summary>
+        /// Gets the full directory path based on the current path.
+        /// </summary>
+        public string FullDirectoryPath
+        {
+            get
+            {
+                var path = FullPath;
+
+                if (Path.HasExtension(path))
+                {
+                    path = Path.Combine(Path.GetDirectoryName(path), Path.GetFileNameWithoutExtension(path));
+                }
+
+                return path;
+            }
+        }
+
+        /// <summary>
         /// The root path of the directory or file.
         /// </summary>
         public string RootPath { get; }
@@ -44,7 +62,7 @@ namespace Endzone.Umbraco.PatternLib.Core.Models
         /// <summary>
         /// If this is a directory containing files.
         /// </summary>
-        public bool IsList => Path.GetExtension(FullPath) == string.Empty;
+        public bool IsList => Directory.Exists(FullDirectoryPath);
 
         /// <summary>
         /// Name of the directory or pattern file.
