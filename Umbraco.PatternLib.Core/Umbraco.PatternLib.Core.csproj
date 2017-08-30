@@ -293,12 +293,6 @@
     <None Include="App_Plugins\Umbraco.PatternLib\Views\Web.config" />
     <None Include="App_Plugins\Umbraco.PatternLib\Views\_Master.cshtml" />
     <None Include="packages.config" />
-    <None Include="_frontend\scss\components\viewer.scss" />
-    <None Include="_frontend\scss\components\menu.scss" />
-    <None Include="_frontend\scss\settings\overrides.scss" />
-    <None Include="_frontend\scss\settings\settings.scss" />
-    <None Include="_frontend\scss\styles.scss" />
-    <None Include="_frontend\scss\vendors\prism.scss" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
@@ -306,23 +300,6 @@
     <Content Include="App_Plugins\Umbraco.PatternLib\assets\fonts\icons\foundation-icons.svg" />
     <Content Include="App_Plugins\Umbraco.PatternLib\assets\scripts\jquery.js" />
     <Content Include="App_Plugins\Umbraco.PatternLib\assets\scripts\scripts.js" />
-    <Content Include="_frontend\scripts\vendor\foundation-sites\foundation.offcanvas.js" />
-    <Content Include="_frontend\scripts\vendor\foundation-sites\foundation.sticky.js" />
-    <Content Include="_frontend\scripts\vendor\foundation-sites\foundation.toggler.js" />
-    <Content Include="_frontend\scripts\vendor\foundation-sites\foundation.util.mediaQuery.js" />
-    <Content Include="_frontend\scripts\vendor\foundation-sites\foundation.util.motion.js" />
-    <Content Include="_frontend\scripts\vendor\foundation-sites\foundation.util.triggers.js" />
-    <Content Include="_frontend\scripts\vendor\prismjs\prism-core.js" />
-    <Content Include="_frontend\scripts\vendor\prismjs\prism-line-numbers.js" />
-    <Content Include="_frontend\scripts\vendor\prismjs\prism-markup.js" />
-    <Content Include="_frontend\scripts\viewer.js" />
-    <Content Include="_frontend\scripts\foundation.js" />
-    <Content Include="_frontend\scripts\vendor\foundation-sites\foundation.core.js" />
-    <Content Include="_frontend\scripts\vendor\foundation-sites\foundation.dropdownMenu.js" />
-    <Content Include="_frontend\scripts\vendor\foundation-sites\foundation.util.box.js" />
-    <Content Include="_frontend\scripts\vendor\foundation-sites\foundation.util.keyboard.js" />
-    <Content Include="_frontend\scripts\vendor\foundation-sites\foundation.util.nest.js" />
-    <Content Include="_frontend\scripts\vendor\jquery\jquery.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\AutoMapper.3.3.1\tools\AutoMapper.targets" Condition="Exists('..\packages\AutoMapper.3.3.1\tools\AutoMapper.targets')" />
