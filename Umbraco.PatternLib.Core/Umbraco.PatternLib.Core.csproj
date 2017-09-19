@@ -271,12 +271,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\EnsureDefaultViewsAttribute.cs" />
+    <Compile Include="Constants.cs" />
     <Compile Include="Controllers\PatternLibController.cs" />
     <Compile Include="Models\Pattern.cs" />
-    <Compile Include="PatternLibRazorViewEngine.cs" />
-    <Compile Include="PatternViewerEnabledAttribute.cs" />
+    <Compile Include="Razor\PatternLibRazorViewEngine.cs" />
+    <Compile Include="Attributes\PatternLibEnabledAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UmbracoEvents.cs" />
+    <Compile Include="App_Start\UmbracoEvents.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

@@ -1,33 +1,24 @@
-﻿using System.Web.Mvc;
+﻿using Endzone.Umbraco.PatternLib.Core.Razor;
+using System.Web.Mvc;
 using System.Web.Routing;
 using Umbraco.Core;
 using Umbraco.Web.Mvc;
 
-namespace Endzone.Umbraco.PatternLib.Core
+namespace Endzone.Umbraco.PatternLib.Core.App_Start
 {
-
     /// <summary>
     /// Registers site specific Umbraco application event handlers
     /// </summary>
     public class UmbracoEvents : ApplicationEventHandler
     {
-
         protected override void ApplicationStarting(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
         {
             base.ApplicationStarting(umbracoApplication, applicationContext);
 
-            //Replace the Umbraco RenderViewEngine with PatternLibRazorViewEngine
-            // this allows us to override View locations without too many extra steps
-            IViewEngine remove = null;
-            ViewEngines.Engines.ForEach(x => {
-                if (x.GetType() == typeof(RenderViewEngine))
-                    remove = x;
-            });
-            if (remove != null)
-                ViewEngines.Engines.Remove(remove);
-
+            // Replace the Umbraco RenderViewEngine with PatternLibRazorViewEngine.
+            // This allows us to override View locations without too many extra steps.
+            ViewEngines.Engines.RemoveAll(x => x is RenderViewEngine);
             ViewEngines.Engines.Add(new PatternLibRazorViewEngine());
-            
         }
 
         protected override void ApplicationStarted(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)

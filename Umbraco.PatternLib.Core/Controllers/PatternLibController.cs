@@ -1,58 +1,18 @@
-﻿using Endzone.Umbraco.PatternLib.Core.Models;
+﻿using Endzone.Umbraco.PatternLib.Core.Attributes;
+using Endzone.Umbraco.PatternLib.Core.Models;
 using System.IO;
 using System.Web.Mvc;
 using Umbraco.Core;
 
 namespace Endzone.Umbraco.PatternLib.Core.Controllers
 {
-    [PatternViewerEnabled]
+    [PatternLibEnabled]
+    [EnsureDefaultViews]
     public class PatternLibController : Controller
     {
-        private const string ViewsTemplatePath = "~/App_Plugins/Umbraco.PatternLib/Views/{0}.cshtml";
-        private const string DefaultViewsFolder = "~/App_Plugins/Umbraco.PatternLib/DefaultViews/";
-
-        private const string PatternViewsPath = "~/Views/_patternlib/";
-        private const string StaticPatternViewsPath = PatternViewsPath + "static/";
-        private const string RazorPatternViewsPath = PatternViewsPath + "razor/";
-
         private static string ViewTemplate(string name)
         {
-            return string.Format(ViewsTemplatePath, name);
-        }
-
-        protected override void OnActionExecuting(ActionExecutingContext filterContext)
-        {
-            base.OnActionExecuting(filterContext);
-
-            EnsureDefaultViews();
-        }
-
-        private void EnsureDefaultViews()
-        {
-            string destination = Server.MapPath(PatternViewsPath);
-
-            if (Directory.Exists(destination))
-            {
-                return;
-            }
-
-            string source = Server.MapPath(DefaultViewsFolder);
-
-            int pathLen = source.Length;
-
-            foreach (string dirPath in Directory.GetDirectories(source, "*", SearchOption.AllDirectories))
-            {
-                string subPath = dirPath.Substring(pathLen);
-                string newpath = Path.Combine(destination, subPath);
-                Directory.CreateDirectory(newpath);
-            }
-
-            foreach (string filePath in Directory.GetFiles(source, "*.*", SearchOption.AllDirectories))
-            {
-                string subPath = filePath.Substring(pathLen);
-                string newpath = Path.Combine(destination, subPath);
-                System.IO.File.Copy(filePath, newpath);
-            }
+            return string.Format(Constants.ViewsTemplatePath, name);
         }
 
         [ChildActionOnly]
@@ -60,7 +20,7 @@ namespace Endzone.Umbraco.PatternLib.Core.Controllers
         {
             var patterns = new PatternLibrary();
 
-            var path = Server.MapPath(useRazor.GetValueOrDefault() ? RazorPatternViewsPath : StaticPatternViewsPath);
+            var path = Server.MapPath(useRazor.GetValueOrDefault() ? Constants.RazorPatternViewsPath : Constants.StaticPatternViewsPath);
             
             foreach (var dirPath in Directory.EnumerateDirectories(path))
             {
@@ -125,7 +85,7 @@ namespace Endzone.Umbraco.PatternLib.Core.Controllers
         {
             ViewBag.UseRazor = useRazor;
 
-            var viewsPath = useRazor ? RazorPatternViewsPath : StaticPatternViewsPath;
+            var viewsPath = useRazor ? Constants.RazorPatternViewsPath : Constants.StaticPatternViewsPath;
 
             var patternPath = Server.MapPath(Path.Combine(viewsPath, path.TrimEnd("/").EnsureEndsWith(useRazor ? ".cshtml" : ".htm")));
             var rootPath = Server.MapPath(viewsPath);
@@ -145,7 +105,7 @@ namespace Endzone.Umbraco.PatternLib.Core.Controllers
         {
             ViewBag.UseRazor = useRazor;
 
-            var viewsPath = useRazor ? RazorPatternViewsPath : StaticPatternViewsPath;
+            var viewsPath = useRazor ? Constants.RazorPatternViewsPath : Constants.StaticPatternViewsPath;
 
             var rootPath = Server.MapPath(viewsPath);
             var patternPath = Path.Combine(rootPath, path);
@@ -170,7 +130,7 @@ namespace Endzone.Umbraco.PatternLib.Core.Controllers
         /// <returns></returns>
         public ActionResult PatternWithModel(string path)
         {
-            var patternPath = Path.Combine(RazorPatternViewsPath, path);
+            var patternPath = Path.Combine(Constants.RazorPatternViewsPath, path);
 
             // TODO: create model mock
 

@@ -1,0 +1,41 @@
+﻿@model Pattern
+@using Endzone.Umbraco.PatternLib.Core.Models;
+@{
+    Layout = "_Master.cshtml";
+
+    ViewBag.HidePatternInfoControl = Model.IsList;
+}
+
+<div class="viewer">
+    <div class="grid-x grid-frame align-center">
+        <div id="viewer-cell" class="cell viewer-cell viewer-cell--full">
+            <iframe id="viewer-frame" class="viewer-frame" src="@(ViewBag.UseRazor == true ? Model.RazorUrl :Model.StaticUrl)"></iframe>
+        </div>
+    </div>
+</div>
+
+@if (!Model.IsList)
+{
+    @section offcanvas {
+
+        <div class="grid-x grid-padding-x">
+            <div class="cell text-right">
+                <button class="close-button" aria-label="Close menu" type="button" data-close>
+                    <i class="fi-x"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="grid-x grid-padding-x">
+            <div class="cell small-12 medium-6">
+                <h4>Notes</h4>
+                @Model.Notes
+            </div>
+            <div class="cell small-12 medium-6">
+                <h4>Markup</h4>
+                <pre><code class="language-html line-numbers">@Model.Code.ToHtmlString()</code></pre>
+            </div>
+        </div>
+
+    }
+}

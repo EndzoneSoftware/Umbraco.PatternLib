@@ -1,14 +1,15 @@
 ﻿using System.Web.Mvc;
 using System.Configuration;
 
-namespace Endzone.Umbraco.PatternLib.Core
+namespace Endzone.Umbraco.PatternLib.Core.Attributes
 {
-    public class PatternViewerEnabledAttribute : FilterAttribute, IAuthorizationFilter
+    /// <summary>
+    /// Only allow access to PatternLib when enabled in web.config.
+    /// </summary>
+    internal class PatternLibEnabledAttribute : FilterAttribute, IAuthorizationFilter
     {
         public void OnAuthorization(AuthorizationContext filterContext)
         {
-            var fooCookie = filterContext.HttpContext.Request.Cookies["foo"];
-
             if (ConfigurationManager.AppSettings["PatternLib.Enable"] != "true")
             {
                 filterContext.Result = new HttpNotFoundResult("Disabled");
