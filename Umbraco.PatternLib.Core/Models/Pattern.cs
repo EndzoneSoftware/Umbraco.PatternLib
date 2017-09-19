@@ -57,7 +57,7 @@ namespace Endzone.Umbraco.PatternLib.Core.Models
         /// <summary>
         /// The relative path to the directory or file.
         /// </summary>
-        private string RelativePath { get; }
+        public string RelativePath { get; }
 
         /// <summary>
         /// If this is a directory containing files.
@@ -115,7 +115,7 @@ namespace Endzone.Umbraco.PatternLib.Core.Models
                     return MvcHtmlString.Empty;
                 }
 
-                var markdownPath = FullPath.Replace(".htm", ".md");
+                var markdownPath = FullPath.Replace(".htm", ".md").Replace(".cshtml", ".md");
 
                 if (!File.Exists(markdownPath))
                 {

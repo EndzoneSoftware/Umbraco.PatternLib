@@ -13,6 +13,7 @@ namespace Endzone.Umbraco.PatternLib.Core.Controllers
 
         private const string PatternViewsPath = "~/Views/_patternlib/";
         private const string StaticPatternViewsPath = PatternViewsPath + "static/";
+        private const string RazorPatternViewsPath = PatternViewsPath + "razor/";
 
         private static string ViewTemplate(string name)
         {
@@ -55,36 +56,37 @@ namespace Endzone.Umbraco.PatternLib.Core.Controllers
         }
 
         [ChildActionOnly]
-        public ActionResult Header(bool? hideControls, bool? hidePatternInfoControl)
+        public ActionResult Header(bool? hideControls, bool? hidePatternInfoControl, bool? useRazor)
         {
             var patterns = new PatternLibrary();
 
-            var path = Server.MapPath(StaticPatternViewsPath);
+            var path = Server.MapPath(useRazor.GetValueOrDefault() ? RazorPatternViewsPath : StaticPatternViewsPath);
             
             foreach (var dirPath in Directory.EnumerateDirectories(path))
             {
                 var pattern = new Pattern(dirPath, path);
 
-                GetPatternsFromDir(pattern);
+                GetPatternsFromDir(pattern, useRazor.GetValueOrDefault());
 
                 patterns.Add(pattern);
             }
 
             ViewBag.HideControls = hideControls;
             ViewBag.HidePatternInfoControl = hidePatternInfoControl;
+            ViewBag.UseRazor = useRazor;
 
             return PartialView(ViewTemplate("Partials/_Header"), patterns);
         }
 
-        private static void GetPatternsFromDir(Pattern pattern)
+        private static void GetPatternsFromDir(Pattern pattern, bool useRazor)
         {
             // get all patterns in this directory
-            foreach (var filePath in Directory.EnumerateFiles(pattern.FullDirectoryPath, "*.htm", SearchOption.TopDirectoryOnly))
+            foreach (var filePath in Directory.EnumerateFiles(pattern.FullDirectoryPath, (useRazor ? "*.cshtml" : "*.htm"), SearchOption.TopDirectoryOnly))
             {
                 // We ignore patterns starting with underscore (_)
                 var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(filePath);
 
-                if (fileNameWithoutExtension != null && !fileNameWithoutExtension.StartsWith("_"))
+                if (fileNameWithoutExtension != null && (useRazor || !fileNameWithoutExtension.StartsWith("_")))
                 {
                     pattern.Add(new Pattern(filePath, pattern.RootPath));
                 }
@@ -95,7 +97,7 @@ namespace Endzone.Umbraco.PatternLib.Core.Controllers
             {
                 var dirPattern = new Pattern(dirPath, pattern.RootPath);
 
-                GetPatternsFromDir(dirPattern);
+                GetPatternsFromDir(dirPattern, useRazor);
 
                 pattern.Add(dirPattern);
             }
@@ -104,34 +106,48 @@ namespace Endzone.Umbraco.PatternLib.Core.Controllers
         /// <summary>
         /// View the index page of patternlib.
         /// </summary>
+        /// <param name="useRazor"></param>
         /// <returns></returns>
-        public ActionResult Index()
+        public ActionResult Index(bool useRazor)
         {
+            ViewBag.UseRazor = useRazor;
+
             return View(ViewTemplate("Index"));
         }
 
         /// <summary>
-        /// Returns the static iframe viewer for this pattern.
+        /// Returns the static or Razor iframe viewer for this pattern.
         /// </summary>
+        /// <param name="path"></param>
+        /// <param name="useRazor"></param>
         /// <returns></returns>
-        public ActionResult StaticViewer(string path)
+        public ActionResult PatternViewer(string path, bool useRazor)
         {
-            var patternPath = Server.MapPath(Path.Combine(StaticPatternViewsPath, path.TrimEnd("/").EnsureEndsWith(".htm")));
-            var rootPath = Server.MapPath(StaticPatternViewsPath);
+            ViewBag.UseRazor = useRazor;
+
+            var viewsPath = useRazor ? RazorPatternViewsPath : StaticPatternViewsPath;
+
+            var patternPath = Server.MapPath(Path.Combine(viewsPath, path.TrimEnd("/").EnsureEndsWith(useRazor ? ".cshtml" : ".htm")));
+            var rootPath = Server.MapPath(viewsPath);
 
             var pattern = new Pattern(patternPath, rootPath);
 
-            return View(ViewTemplate("Pattern"), pattern);
+            return View(ViewTemplate("PatternViewer"), pattern);
         }
 
         /// <summary>
-        /// Returns the static HTML for this pattern (wrapped in the PatternMaster).
+        /// Returns the static or Razor HTML for this pattern (wrapped in the PatternMaster).
         /// </summary>
         /// <param name="path"></param>
+        /// <param name="useRazor"></param>
         /// <returns></returns>
-        public ActionResult Static(string path)
+        public ActionResult Pattern(string path, bool useRazor)
         {
-            var rootPath = Server.MapPath(StaticPatternViewsPath);
+            ViewBag.UseRazor = useRazor;
+
+            var viewsPath = useRazor ? RazorPatternViewsPath : StaticPatternViewsPath;
+
+            var rootPath = Server.MapPath(viewsPath);
             var patternPath = Path.Combine(rootPath, path);
             
             var pattern = new Pattern(patternPath, rootPath);
@@ -139,12 +155,26 @@ namespace Endzone.Umbraco.PatternLib.Core.Controllers
             if (pattern.IsList)
             {
                 // get child patterns
-                GetPatternsFromDir(pattern);
+                GetPatternsFromDir(pattern, false);
             }
 
-            var patterMasterPath = Path.Combine(StaticPatternViewsPath, "_PatternMaster.cshtml");
+            var patterMasterPath = Path.Combine(viewsPath, "_PatternMaster.cshtml");
 
             return View(patterMasterPath, pattern);
+        }
+
+        /// <summary>
+        /// Returns the Razor view with mocked viewmodel.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public ActionResult PatternWithModel(string path)
+        {
+            var patternPath = Path.Combine(RazorPatternViewsPath, path);
+
+            // TODO: create model mock
+
+            return PartialView(patternPath);
         }
     }
 }

@@ -9,6 +9,10 @@
         <h1>PatternLib</h1>
 
         <p>View the available patterns by using the navigation at the top of the screen.</p>
-        <p>When viewing a pattern you can also view each pattern in different viewport sizes by using the controls at the top right of the page.</p>        
+        <p>When viewing a pattern you can also view each pattern in different viewport sizes by using the controls at the top right of the page.</p>
+        
+        <p>
+            <a href="~/patternlib/@(ViewBag.UseRazor ? null : "razor/")" class="button">View @(ViewBag.UseRazor ? "static" : "Razor") patterns</a>
+        </p>
     </div>
 </div>

@@ -9,7 +9,7 @@
 <div class="viewer">
     <div class="grid-x grid-frame align-center">
         <div id="viewer-cell" class="cell viewer-cell viewer-cell--full">
-            <iframe id="viewer-frame" class="viewer-frame" src="@Model.StaticUrl"></iframe>
+            <iframe id="viewer-frame" class="viewer-frame" src="@(ViewBag.ShowRazor == true ? Model.RazorUrl :Model.StaticUrl)"></iframe>
         </div>
     </div>
 </div>

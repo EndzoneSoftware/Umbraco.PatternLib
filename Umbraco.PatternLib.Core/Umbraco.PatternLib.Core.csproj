@@ -286,10 +286,11 @@
     <None Include="App_Plugins\Umbraco.PatternLib\assets\fonts\icons\foundation-icons.woff" />
     <None Include="App_Plugins\Umbraco.PatternLib\assets\scripts\jquery.js.map" />
     <None Include="App_Plugins\Umbraco.PatternLib\assets\scripts\scripts.js.map" />
+    <None Include="App_Plugins\Umbraco.PatternLib\DefaultViews\razor\_PatternMaster.cshtml" />
     <None Include="App_Plugins\Umbraco.PatternLib\DefaultViews\static\_PatternMaster.cshtml" />
     <None Include="App_Plugins\Umbraco.PatternLib\Views\Index.cshtml" />
     <None Include="App_Plugins\Umbraco.PatternLib\Views\Partials\_Header.cshtml" />
-    <None Include="App_Plugins\Umbraco.PatternLib\Views\Pattern.cshtml" />
+    <None Include="App_Plugins\Umbraco.PatternLib\Views\PatternViewer.cshtml" />
     <None Include="App_Plugins\Umbraco.PatternLib\Views\Web.config" />
     <None Include="App_Plugins\Umbraco.PatternLib\Views\_Master.cshtml" />
     <None Include="packages.config" />
