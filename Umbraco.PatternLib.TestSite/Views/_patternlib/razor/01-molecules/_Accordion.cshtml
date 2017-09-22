@@ -1,0 +1,18 @@
+﻿@model Umbraco.Web.PublishedContentModels.IAccordion
+  
+@Model.Name
+  
+@if (Model == null || !Model.Items.Any())
+{
+    return;
+}
+
+@foreach (AccordionItem item in Model.Items)
+{
+    <div class="accordionButton">
+        <h2>@item.Heading</h2>
+    </div>
+    <div class="accordionContent">
+        @item.Text
+    </div>    
+}

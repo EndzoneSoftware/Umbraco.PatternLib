@@ -30,14 +30,14 @@
                     <a href="@pattern.RazorViewerUrl" target="_parent">@pattern.Name</a>
                 </h2>
 
-                @Html.Action("PatternWithModel", "PatternLib", new { path = pattern.RelativePath })
+                @Html.Action("PatternWithModel", "PatternLib", new { path = pattern.RelativePath, code = pattern.Code })
 
                 <div style="height: 3rem;"></div>
             }
         }
         else
         {
-            @Html.Action("PatternWithModel", "PatternLib", new { path = Model.RelativePath })
+            @Html.Action("PatternWithModel", "PatternLib", new { path = Model.RelativePath, code = Model.Code })
         }
         
         <!-- include js here -->

@@ -1,7 +1,9 @@
 ﻿using Endzone.Umbraco.PatternLib.Core.Attributes;
 using Endzone.Umbraco.PatternLib.Core.Models;
+using Endzone.Umbraco.PatternLib.Core.Razor;
 using System.IO;
 using System.Web.Mvc;
+using Endzone.Umbraco.PatternLib.Core.Mocks;
 using Umbraco.Core;
 
 namespace Endzone.Umbraco.PatternLib.Core.Controllers
@@ -127,14 +129,30 @@ namespace Endzone.Umbraco.PatternLib.Core.Controllers
         /// Returns the Razor view with mocked viewmodel.
         /// </summary>
         /// <param name="path"></param>
+        /// <param name="code"></param>
         /// <returns></returns>
-        public ActionResult PatternWithModel(string path)
+        public ActionResult PatternWithModel(string path, string code)
         {
+            object model = null;
+
             var patternPath = Path.Combine(Constants.RazorPatternViewsPath, path);
 
-            // TODO: create model mock
+            var modelTypeName = RazorParser.GetModelTypeName(code);
 
-            return PartialView(patternPath);
+            if (!string.IsNullOrEmpty(modelTypeName))
+            {
+                var modelType = TypeFinder.GetTypeByName(modelTypeName);
+
+                if (modelType != null)
+                {
+                    // get the full file path of the mock data JSON file
+                    var patternDataPath = Server.MapPath(patternPath.Replace(".cshtml", ".json"));
+
+                    model = MockBuilder.Create(modelType, patternDataPath);
+                }
+            }
+
+            return PartialView(patternPath, model);
         }
     }
 }
