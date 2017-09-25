@@ -4,9 +4,9 @@ using NSubstitute;
 using System;
 using System.Linq;
 using System.Reflection;
+using System.Web;
 using Umbraco.Core;
 using Umbraco.Core.Models;
-using Umbraco.Core.Strings;
 using File = System.IO.File;
 
 namespace Endzone.Umbraco.PatternLib.Core.Mocks
@@ -28,7 +28,8 @@ namespace Endzone.Umbraco.PatternLib.Core.Mocks
             }
 
             // get implemented class of the passed in interface
-            var getImplementedClassTypeMethod = typeof(MockBuilder).GetMethod("GetImplementedClassType", BindingFlags.NonPublic | BindingFlags.Static);
+            var getImplementedClassTypeMethod = typeof(MockBuilder).GetMethod("GetImplementedClassType",
+                BindingFlags.NonPublic | BindingFlags.Static);
 
             if (getImplementedClassTypeMethod == null)
             {
@@ -53,7 +54,8 @@ namespace Endzone.Umbraco.PatternLib.Core.Mocks
             }
 
             // create a mock of the class type
-            var genericCreateMethod = typeof(MockBuilder).GetMethod("Create", BindingFlags.NonPublic | BindingFlags.Static);
+            var genericCreateMethod =
+                typeof(MockBuilder).GetMethod("Create", BindingFlags.NonPublic | BindingFlags.Static);
 
             if (genericCreateMethod == null)
             {
@@ -62,7 +64,7 @@ namespace Endzone.Umbraco.PatternLib.Core.Mocks
 
             genericCreateMethod = genericCreateMethod.MakeGenericMethod(classType);
 
-            return genericCreateMethod.Invoke(null, new object[] { patternData });
+            return genericCreateMethod.Invoke(null, new object[] {patternData});
         }
 
         /// <summary>
@@ -92,7 +94,7 @@ namespace Endzone.Umbraco.PatternLib.Core.Mocks
         /// </summary>
         /// <param name="patternData"></param>
         /// <returns></returns>
-        private static object Create<T>(JObject patternData) where T : class, IPublishedContent
+        private static T Create<T>(JObject patternData) where T : class, IPublishedContent
         {
             T mock;
 
@@ -116,53 +118,89 @@ namespace Endzone.Umbraco.PatternLib.Core.Mocks
             }
 
             // hook up substitute calls
-            mock.Name.Returns(GetMockedPublishedProperty("Name", patternData)?.Value);
-            mock.GetProperty(Arg.Any<string>(), Arg.Any<bool>()).Returns(callInfo => GetMockedPublishedProperty(callInfo[0] as string, patternData));
+            mock.Name.Returns(GetPropertyValue<string>("Name", patternData));
+            mock.CreateDate.Returns(GetPropertyValue<DateTime>("CreateDate", patternData));
+            mock.UpdateDate.Returns(GetPropertyValue<DateTime>("UpdateDate", patternData));
+
+            mock.GetProperty(Arg.Any<string>(), Arg.Any<bool>()).Returns(callInfo =>
+                GetMockedPublishedProperty(callInfo[0] as string, patternData));
 
             return mock;
         }
 
         /// <summary>
-        /// Creates an instance of MockedPublishedProperty using JSON data from the pattern directory.
+        /// Gets property value in specified type, using JSON data from the pattern directory.
+        /// </summary>
+        /// <param name="alias"></param>
+        /// <param name="patternData"></param>
+        /// <returns></returns>
+        private static T GetPropertyValue<T>(string alias, JObject patternData)
+        {
+            if (string.IsNullOrEmpty(alias))
+            {
+                return default(T);
+            }
+
+            // try to find property value in JSON data
+            if (!patternData.TryGetValue(alias, StringComparison.InvariantCultureIgnoreCase, out var value))
+            {
+                return default(T);
+            }
+
+            object propertyValue = null;
+
+            if (value is JArray array)
+            {
+                // return array items
+                propertyValue = array.Values<JObject>().Select(Create<IPublishedContent>).ToList();
+            }
+            else
+            {
+                var stringValue = value.Value<string>();
+
+                // check if it's a specific type
+                if (DateTime.TryParse(stringValue, out var date))
+                {
+                    // datetime
+                    propertyValue = date;
+                }
+                else if (int.TryParse(stringValue, out var integer))
+                {
+                    // integer
+                    propertyValue = integer;
+                }
+                else if (stringValue.StartsWith("<p") || stringValue.StartsWith("<div") ||
+                         stringValue.StartsWith("<span"))
+                {
+                    // HTML (from RTE)
+                    propertyValue = new HtmlString(stringValue);
+                }
+                else
+                {
+                    // return value as string
+                    propertyValue = stringValue;
+                }
+            }
+
+            if (typeof(T) == typeof(object))
+            {
+                return (T) ((object) propertyValue);
+            }
+            else
+            {
+                return (T) Convert.ChangeType(propertyValue, typeof(T));
+            }
+        }
+
+        /// <summary>
+        /// Creates an instance of MockedPublishedProperty using property value data from JSON.
         /// </summary>
         /// <param name="alias"></param>
         /// <param name="patternData"></param>
         /// <returns></returns>
         private static MockedPublishedProperty GetMockedPublishedProperty(string alias, JObject patternData)
         {
-            if (string.IsNullOrEmpty(alias))
-            {
-                return null;
-            }
-
-            // JSON data should use Pascal case names
-            alias = alias.ToCleanString(CleanStringType.PascalCase);
-
-            // try to find property value in JSON data
-            JToken value;
-
-            if (!patternData.TryGetValue(alias, out value))
-            {
-                return null;
-            }
-
-            object propertyValue = null;
-
-            if (value is JArray)
-            {
-                var array = (JArray)value;
-
-                // return array items
-                propertyValue = array.Values<JObject>().Select(Create<IPublishedContent>).Cast<IPublishedContent>().ToList();
-            }
-            else
-            {
-                // return value as string
-                propertyValue = value.Value<string>();
-            }
-
-            // use normal Umbraco alias name for our mock
-            alias = alias.ToCleanString(CleanStringType.Alias);
+            var propertyValue = GetPropertyValue<object>(alias, patternData);
 
             return new MockedPublishedProperty(alias, propertyValue, propertyValue, propertyValue);
         }

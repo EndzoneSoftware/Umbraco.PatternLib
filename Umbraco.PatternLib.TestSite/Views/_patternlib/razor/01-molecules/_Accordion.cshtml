@@ -7,7 +7,7 @@
     return;
 }
 
-@foreach (AccordionItem item in Model.Items)
+@foreach (var item in Model.Items.Select(x => new AccordionItem(x)))
 {
     <div class="accordionButton">
         <h2>@item.Heading</h2>
