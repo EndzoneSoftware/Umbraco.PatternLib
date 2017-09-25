@@ -278,6 +278,7 @@
     <Compile Include="Constants.cs" />
     <Compile Include="Controllers\PatternLibController.cs" />
     <Compile Include="Mocks\MockBuilder.cs" />
+    <Compile Include="Mocks\MockedPublishedProperty.cs" />
     <Compile Include="Models\Pattern.cs" />
     <Compile Include="Razor\PatternLibRazorViewEngine.cs" />
     <Compile Include="Attributes\PatternLibEnabledAttribute.cs" />
