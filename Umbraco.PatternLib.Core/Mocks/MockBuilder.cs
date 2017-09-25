@@ -139,7 +139,9 @@ namespace Endzone.Umbraco.PatternLib.Core.Mocks
             alias = alias.ToCleanString(CleanStringType.PascalCase);
 
             // try to find property value in JSON data
-            if (!patternData.TryGetValue(alias, out var value))
+            JToken value;
+
+            if (!patternData.TryGetValue(alias, out value))
             {
                 return null;
             }
