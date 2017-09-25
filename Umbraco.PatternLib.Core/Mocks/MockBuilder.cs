@@ -148,8 +148,10 @@ namespace Endzone.Umbraco.PatternLib.Core.Mocks
 
             object propertyValue = null;
 
-            if (value is JArray array)
+            if (value is JArray)
             {
+                var array = (JArray)value;
+
                 // return array items
                 propertyValue = array.Values<JObject>().Select(Create<IPublishedContent>).Cast<IPublishedContent>().ToList();
             }
