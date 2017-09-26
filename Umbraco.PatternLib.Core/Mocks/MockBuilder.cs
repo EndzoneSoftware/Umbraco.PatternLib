@@ -1,10 +1,8 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using NSubstitute;
 using System;
 using System.Linq;
 using System.Reflection;
-using System.Web;
 using Umbraco.Core;
 using Umbraco.Core.Models;
 using File = System.IO.File;
@@ -96,113 +94,20 @@ namespace Endzone.Umbraco.PatternLib.Core.Mocks
         /// <returns></returns>
         private static T Create<T>(JObject patternData) where T : class, IPublishedContent
         {
-            T mock;
+            // get default constructor
+            var constructor = typeof(T).GetConstructor(new[] { typeof(IPublishedContent) });
 
-            if (typeof(T).IsInterface)
+            if (constructor == null)
             {
-                // no arguments required
-                mock = Substitute.For<T>();
-            }
-            else
-            {
-                // need to pass in IPublishedContent mock into constructor
-                var mockPublishedContent = Substitute.For<IPublishedContent>();
-
-                mock = Substitute.For<T>(mockPublishedContent);
+                return default(T);
             }
 
-            if (patternData == null)
-            {
-                // no data JSON found, return empty mock
-                return mock;
-            }
+            // need to pass in IPublishedContent mock into constructor
+            var mockPublishedContent = new MockedPublishedContent(patternData);
 
-            // hook up substitute calls
-            mock.Name.Returns(GetPropertyValue<string>("Name", patternData));
-            mock.CreateDate.Returns(GetPropertyValue<DateTime>("CreateDate", patternData));
-            mock.UpdateDate.Returns(GetPropertyValue<DateTime>("UpdateDate", patternData));
-
-            mock.GetProperty(Arg.Any<string>(), Arg.Any<bool>()).Returns(callInfo =>
-                GetMockedPublishedProperty(callInfo[0] as string, patternData));
+            var mock = constructor.Invoke(new object[] { mockPublishedContent }) as T;
 
             return mock;
-        }
-
-        /// <summary>
-        /// Gets property value in specified type, using JSON data from the pattern directory.
-        /// </summary>
-        /// <param name="alias"></param>
-        /// <param name="patternData"></param>
-        /// <returns></returns>
-        private static T GetPropertyValue<T>(string alias, JObject patternData)
-        {
-            if (string.IsNullOrEmpty(alias))
-            {
-                return default(T);
-            }
-
-            // try to find property value in JSON data
-            if (!patternData.TryGetValue(alias, StringComparison.InvariantCultureIgnoreCase, out var value))
-            {
-                return default(T);
-            }
-
-            object propertyValue = null;
-
-            if (value is JArray array)
-            {
-                // return array items
-                propertyValue = array.Values<JObject>().Select(Create<IPublishedContent>).ToList();
-            }
-            else
-            {
-                var stringValue = value.Value<string>();
-
-                // check if it's a specific type
-                if (DateTime.TryParse(stringValue, out var date))
-                {
-                    // datetime
-                    propertyValue = date;
-                }
-                else if (int.TryParse(stringValue, out var integer))
-                {
-                    // integer
-                    propertyValue = integer;
-                }
-                else if (stringValue.StartsWith("<p") || stringValue.StartsWith("<div") ||
-                         stringValue.StartsWith("<span"))
-                {
-                    // HTML (from RTE)
-                    propertyValue = new HtmlString(stringValue);
-                }
-                else
-                {
-                    // return value as string
-                    propertyValue = stringValue;
-                }
-            }
-
-            if (typeof(T) == typeof(object))
-            {
-                return (T) ((object) propertyValue);
-            }
-            else
-            {
-                return (T) Convert.ChangeType(propertyValue, typeof(T));
-            }
-        }
-
-        /// <summary>
-        /// Creates an instance of MockedPublishedProperty using property value data from JSON.
-        /// </summary>
-        /// <param name="alias"></param>
-        /// <param name="patternData"></param>
-        /// <returns></returns>
-        private static MockedPublishedProperty GetMockedPublishedProperty(string alias, JObject patternData)
-        {
-            var propertyValue = GetPropertyValue<object>(alias, patternData);
-
-            return new MockedPublishedProperty(alias, propertyValue, propertyValue, propertyValue);
         }
     }
 }

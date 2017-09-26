@@ -9,8 +9,11 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
     <releaseNotes></releaseNotes>
-    <copyright>Copyright 2018</copyright>
+    <copyright>Copyright 2017</copyright>
     <tags></tags>
+    <dependencies>
+      <dependency id="UmbracoCms" version="7.6.3" />
+    </dependencies>
   </metadata>
   <files>
     <file src="App_Plugins\Umbraco.Patternlib\**\*" target="content\App_Plugins\Umbraco.Patternlib" />

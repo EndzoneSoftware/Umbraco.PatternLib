@@ -1,0 +1,41 @@
+{
+  "Name": "Slider",
+  "DocumentTypeAlias": "slider",
+  "CreateDate": "2017-09-25 10:00:00",
+  "UpdateDate": "2017-09-25 15:25:00",
+  "Slides": [
+    {
+      "DocumentTypeAlias": "sliderSlide",
+      "Image": {
+        "Name": "Image 1",
+        "MediaTypeAlias": "image",
+        "CreateDate": "2017-09-25 10:00:00",
+        "UpdateDate": "2017-09-25 15:25:00",
+        "UmbracoFile": "/assets/images/fpo_hero.png"
+      },
+      "Title": "Slide 1"
+    },
+    {
+      "DocumentTypeAlias": "sliderSlide",
+      "Image": {
+        "Name": "Image 2",
+        "MediaTypeAlias": "image",
+        "CreateDate": "2017-09-25 10:00:00",
+        "UpdateDate": "2017-09-25 15:25:00",
+        "UmbracoFile": "/assets/images/fpo_hero.png"
+      },
+      "Title": "Slide 2"
+    },
+    {
+      "DocumentTypeAlias": "sliderSlide",
+      "Image": {
+        "Name": "Image 3",
+        "MediaTypeAlias": "image",
+        "CreateDate": "2017-09-25 10:00:00",
+        "UpdateDate": "2017-09-25 15:25:00",
+        "UmbracoFile": "/assets/images/fpo_hero.png"
+      },
+      "Title": "Slide 3"
+    }
+  ]
+}

@@ -20,16 +20,16 @@ using Umbraco.ModelsBuilder.Umbraco;
 
 namespace Umbraco.Web.PublishedContentModels
 {
-	/// <summary>_PatternLib Master</summary>
-	[PublishedContentModel("patternLibMaster")]
-	public partial class PatternLibMaster : PublishedContentModel, IAccordion, ISlider
+	/// <summary>Slider Slide</summary>
+	[PublishedContentModel("sliderSlide")]
+	public partial class SliderSlide : PublishedContentModel
 	{
 #pragma warning disable 0109 // new is redundant
-		public new const string ModelTypeAlias = "patternLibMaster";
+		public new const string ModelTypeAlias = "sliderSlide";
 		public new const PublishedItemType ModelItemType = PublishedItemType.Content;
 #pragma warning restore 0109
 
-		public PatternLibMaster(IPublishedContent content)
+		public SliderSlide(IPublishedContent content)
 			: base(content)
 		{ }
 
@@ -40,27 +40,27 @@ namespace Umbraco.Web.PublishedContentModels
 		}
 #pragma warning restore 0109
 
-		public static PublishedPropertyType GetModelPropertyType<TValue>(Expression<Func<PatternLibMaster, TValue>> selector)
+		public static PublishedPropertyType GetModelPropertyType<TValue>(Expression<Func<SliderSlide, TValue>> selector)
 		{
 			return PublishedContentModelUtility.GetModelPropertyType(GetModelContentType(), selector);
 		}
 
 		///<summary>
-		/// Items: Add multiple items to be displayed in the accordion.
+		/// Image: Image uses the 000 x 000 crop size.
 		///</summary>
-		[ImplementPropertyType("items")]
-		public IEnumerable<IPublishedContent> Items
+		[ImplementPropertyType("image")]
+		public IPublishedContent Image
 		{
-			get { return Umbraco.Web.PublishedContentModels.Accordion.GetItems(this); }
+			get { return this.GetPropertyValue<IPublishedContent>("image"); }
 		}
 
 		///<summary>
-		/// Slides: Add multiple slides to be shown in the slider.
+		/// Title
 		///</summary>
-		[ImplementPropertyType("slides")]
-		public IEnumerable<IPublishedContent> Slides
+		[ImplementPropertyType("title")]
+		public string Title
 		{
-			get { return Umbraco.Web.PublishedContentModels.Slider.GetSlides(this); }
+			get { return this.GetPropertyValue<string>("title"); }
 		}
 	}
 }

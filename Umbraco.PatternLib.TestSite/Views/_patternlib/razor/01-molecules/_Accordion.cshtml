@@ -1,13 +1,11 @@
 ﻿@model Umbraco.Web.PublishedContentModels.IAccordion
   
-@Model.Name
-  
 @if (Model == null || !Model.Items.Any())
 {
     return;
 }
 
-@foreach (var item in Model.Items.Select(x => new AccordionItem(x)))
+@foreach (AccordionItem item in Model.Items)
 {
     <div class="accordionButton">
         <h2>@item.Heading</h2>

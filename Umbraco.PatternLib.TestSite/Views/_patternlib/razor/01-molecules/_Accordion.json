@@ -1,17 +1,21 @@
 {
   "Name": "Accordion",
+  "DocumentTypeAlias":  "accordion",
   "CreateDate": "2017-09-25 10:00:00",
   "UpdateDate": "2017-09-25 15:25:00",
   "Items": [
     {
+      "DocumentTypeAlias": "accordionItem",
       "Heading": "Accordion Item 1",
       "Text": "<p>The text for item 1</p>"
     },
     {
+      "DocumentTypeAlias": "accordionItem",
       "Heading": "Accordion Item 2",
       "Text": "<p>The text for item 2</p>"
     },
     {
+      "DocumentTypeAlias": "accordionItem",
       "Heading": "Accordion Item 3",
       "Text": "<p>The text for item 3</p>"
     }

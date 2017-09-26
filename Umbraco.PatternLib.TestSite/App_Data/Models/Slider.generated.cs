@@ -20,16 +20,24 @@ using Umbraco.ModelsBuilder.Umbraco;
 
 namespace Umbraco.Web.PublishedContentModels
 {
-	/// <summary>_PatternLib Master</summary>
-	[PublishedContentModel("patternLibMaster")]
-	public partial class PatternLibMaster : PublishedContentModel, IAccordion, ISlider
+	// Mixin content Type 1100 with alias "slider"
+	/// <summary>Slider</summary>
+	public partial interface ISlider : IPublishedContent
+	{
+		/// <summary>Slides</summary>
+		IEnumerable<IPublishedContent> Slides { get; }
+	}
+
+	/// <summary>Slider</summary>
+	[PublishedContentModel("slider")]
+	public partial class Slider : PublishedContentModel, ISlider
 	{
 #pragma warning disable 0109 // new is redundant
-		public new const string ModelTypeAlias = "patternLibMaster";
+		public new const string ModelTypeAlias = "slider";
 		public new const PublishedItemType ModelItemType = PublishedItemType.Content;
 #pragma warning restore 0109
 
-		public PatternLibMaster(IPublishedContent content)
+		public Slider(IPublishedContent content)
 			: base(content)
 		{ }
 
@@ -40,18 +48,9 @@ namespace Umbraco.Web.PublishedContentModels
 		}
 #pragma warning restore 0109
 
-		public static PublishedPropertyType GetModelPropertyType<TValue>(Expression<Func<PatternLibMaster, TValue>> selector)
+		public static PublishedPropertyType GetModelPropertyType<TValue>(Expression<Func<Slider, TValue>> selector)
 		{
 			return PublishedContentModelUtility.GetModelPropertyType(GetModelContentType(), selector);
-		}
-
-		///<summary>
-		/// Items: Add multiple items to be displayed in the accordion.
-		///</summary>
-		[ImplementPropertyType("items")]
-		public IEnumerable<IPublishedContent> Items
-		{
-			get { return Umbraco.Web.PublishedContentModels.Accordion.GetItems(this); }
 		}
 
 		///<summary>
@@ -60,7 +59,10 @@ namespace Umbraco.Web.PublishedContentModels
 		[ImplementPropertyType("slides")]
 		public IEnumerable<IPublishedContent> Slides
 		{
-			get { return Umbraco.Web.PublishedContentModels.Slider.GetSlides(this); }
+			get { return GetSlides(this); }
 		}
+
+		/// <summary>Static getter for Slides</summary>
+		public static IEnumerable<IPublishedContent> GetSlides(ISlider that) { return that.GetPropertyValue<IEnumerable<IPublishedContent>>("slides"); }
 	}
 }

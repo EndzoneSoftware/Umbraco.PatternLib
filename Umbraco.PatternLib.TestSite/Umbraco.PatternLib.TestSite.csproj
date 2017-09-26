@@ -360,6 +360,7 @@
     <Content Include="Views\_patternlib\razor\01-molecules\_Accordion.cshtml" />
     <Content Include="App_Plugins\NestedContent\package.manifest" />
     <Content Include="Views\Home.cshtml" />
+    <Content Include="Views\_patternlib\razor\01-molecules\_Slider.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

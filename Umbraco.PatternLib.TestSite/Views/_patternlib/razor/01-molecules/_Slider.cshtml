@@ -1,0 +1,16 @@
+﻿@model Umbraco.Web.PublishedContentModels.ISlider
+  
+@if (Model == null || !Model.Slides.Any())
+{
+    return;
+}
+
+@foreach (SliderSlide item in Model.Slides)
+{
+    <div>
+        <img src="@item.Image.GetCropUrl(cropAlias: "640x480", width: 640, height: 480)" alt="" />
+        <div>
+            @item.Title
+        </div>
+    </div>
+}
